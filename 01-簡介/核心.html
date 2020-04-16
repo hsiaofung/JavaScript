@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //第2章 : 語彙結構
+        var x; //宣告為x的變數
+        //值可用 = 號指定給變數
+        x = 0; //現在變數 x 有值 0 
+        console.log(x); // => 0: 直接對一個變數求值會得到它的值
+
+        //第3章 : 型別、值與變數
+        //JavaScript 支援幾種不同型別的值
+        x = 1; //數字(Numbers)
+        x = 0.01; //整數與實數(reals)都用同一種數字的型別。
+        x = "hello world"; //引號中的文字字串
+        x = 'JavaScript' //單引號(Single quote marks)也用來界定字串
+        x = true //Boolean 值
+        x = false //另一個Boolean
+        x = null; //Null是一個特別的值，代表無值
+        x = undefined //Undefined 跟 null類似
+
+        //第6章 : 物件
+        //JavaScript 最重要的資料型別是物件。
+        //物件是名稱/值對組(name/value pairs)的群集，或是字串對應至值的map(映射)
+        var book = { //物件由大括號(curly braces)所包圍。             
+            topic: "JavaScript", //特性topic有值"JavaScript"。
+            fat: true //特性fat 有值 true            
+        }; //這個右大括號代表物件的結尾。
+
+        //物件的特性可用. 或 []存取
+        book.topic //=> JavaScript
+        book["fat"]; //=>true: 另一個存取特性值的方法
+        book.author = "Flanagan"; //=>創建一個新特性
+        book.contents = {}; //{}是一個沒有特性的空物件
+
+        //第7章 : 陣列
+        //JS也支援值的陣列(使用數值索引的列表)
+        var primes = [2, 3, 5, 7]; //四個值組成的陣列，由 [ 與 ] 界定。
+        primes[0] //=>2 : 陣列的第一個元素(索引0)
+        primes.length; //=>4 : 陣列有多少個元素
+        primes[primes.length - 1] //=>7 : 陣列的最後一個元素
+        primes[4] = 9; //=>藉由指定新增一個元素
+        primes[4] = 11; //=>藉由指定更改現存元素
+        var empty = []; //=>[]是一個沒有元素的空陣列
+        empty.length; //=>0
+        //陣列與物件中可容納其他的陣列與物件
+        var points = [{ //一個雙元素的陣列
+            x: 0, //每一個元素都是物件      
+            y: 0
+        }, {
+            x: 1,
+            y: 1
+        }];
+        var data = { //一個雙特性的物件
+            trial1: [ //每個特性都是陣列
+                [1, 2], //陣列中的每一個元素也是陣列
+                [3, 4]
+            ],
+            trial2: [
+                [2, 3],
+                [4, 5]
+            ],
+        }
+
+        //第4章: 運算式與運算子
+        //運算子作用在值(此時可稱為operands，運算元)上，並產生一個新的值。
+        //最常見的算術運算子(Arithmetic operators)
+        var num = 3 + 2; //=>5 : 加
+        num = 3 - 2; //=>1: 減
+        num = 3 * 2; //=>6: 乘
+        num = 3 / 2; //=>1.5: 除
+        num = points[1].x - points[0].x; //=>1:複雜一點的運算元也行
+        num = "3" + "2"; //=>"32" : + 相加數字，串接字串
+
+        //簡寫(shorthand)算數運算子
+        var count = 0; //定義一個變數
+        count++; //遞增此變數
+        count--; //遞減此變數
+        count += 2; //加2: 與count = count +2 等效
+        count *= 3; //乘3: 與count = count*3 等效
+        count //=>6: 變數名稱也是運算式
+
+        //相等性(equality)與關係(relation)運算子測試兩個值是否相等
+        var x = 2, //這些 = 符號代表指定，而非相等性測試        
+            y = 3;
+        x == y; //=>false:相等性
+        x != y; //=>true:不等性
+        x < y; //=>true:小於
+        x <= y; //=>true:小於或等於
+        x > y; //=>false:大於
+        x >= y; //=>false:大於或等於
+        "two" == "three"; //=>false:兩個字串不相等
+        "two" > "three"; //=>true:tw 按字母順序大於 th
+        false == (x > y); //=>true: false與false相等
+
+        //邏輯(logical)運算子 : 結合或反轉(invert)boolean值
+        (x == 2) && (y == 3); //=>true: 兩個比較都為true。&&代表AND
+        (x > 3) || (y < 3); //=>false:兩個比較都為false。||代表OR
+        !(x == y); //=>true: !反轉boolean值
+
+        //第8章: 函式
+        //函式是具有參數，可調用的JavaScript程式碼區塊
+        function plus1(x) { //定義一個名為plis1的函式，具有參數 x        
+            return x + 1; //回傳一個比傳入值大1的值
+        } //用大括號圍住函式
+        plus1(y) //=>4: y為3，所以這個調用傳回3+1
+
+        var square = function (x) { //函式也是值，可以指定給變數
+            return x * x; //計算函式的值
+        }; //分號表示這個指定的結尾
+
+        //當函式被指定給物件的特性，我們稱作它們為方法。所有JS物件都有方法(methods)。
+        var a = []; //創建一個空陣列
+        a.push(1, 2, 3) //push()方法新增一個元素到陣列
+        a.reverse(); //reverse()方法: 反轉元素順序
+
+        //我們也可以自己定義方法。this關鍵字指到這個自訂方法所在的物件: 在此例中，
+        //就是上面的points陣列。
+        points.dist = function () { //定義一個計算兩點距離的方法
+            var p1 = this[0]; //調用方法的陣列中的第一個元素
+            var p2 = this[1]; //this物件的第二個元素
+            var a = p2.x - p1.x; //x 座標的距離差
+            var b = p2.y - p1.y; //y 座標的距離差
+            return Math.sqrt(a * a + b * b) //畢氏定理(The Pythagorean theorem)
+            //Math.sqrt()計算平方根(square root)
+        };
+        points.dist(); //=>1.414: 兩點間的距離
+
+        //JS述句包括條件句與迴圈
+        function abs(x) { //計算絕對值(absolute value)的函式
+            if (x >= 0) { //if 述句
+                return x; //如果比較結果為true，就執行這段程式碼。
+            } else { //如果比較結果為false
+                return -x //就執行這段程式碼。
+            } //在子句中只有一個述句的情形下，大括號可以省略
+        } //注意return 述句嵌套(nested)於if/else之內。
+
+        function factorial(n) { //計算階乘(factorials)值的函式
+            var product = 1; //以乘積1開始
+            while (n > 1) { //當()中的運算式值為true，就重複執行{}中的述句
+                product *= n; //product = product * n 的簡寫
+                n--; //n=n-1的簡寫
+            } //迴圈結尾
+            return product; //回傳乘積
+        }
+        factorial(4) //=>24 : 1*4*3*2
+
+        function factorial2(n) { //使用不同的迴圈版本
+            var i, product = 1; //從1開始
+            for (i = 2; i <= n; i++) //i 從 2 開始自動遞增1，直到n
+                product *= i; //每次都執行這個，單行迴圈不需要{}
+            return product //迴傳階乘值
+        }
+        factorial(5) //=>120 : 1*2*3*4*5
+
+        //第9章: 類別與模組
+        //定義建構函式(constructor function)，初始化新的point物件
+        function Point(x, y) { //基於慣例，建構式的開頭大寫
+            this.x = x; //this關鍵字指向要初始化的新物件
+            this.y = y; //把函式引數存為物件特性。
+        } //無須回傳
+
+        //建構函式與關鍵字new 用來創建實體
+        var p = new Point(1, 1); //幾何點(1,1)
+
+        //定義方法給Point物件 : 把方法定義指定給與建構函式關聯的prototype物件
+        Point.prototype.r = function () {
+            return Math.sqrt(this.x * this.x + this.y * this.y) //回傳x2+y2的平方根
+            //this指向調用方法的Point物件
+        }
+        //現在Point物件p(以及未來所有的Point物件)繼承了方法r()
+        p.r() //=>1.414.....
+    </script>
+</body>
+
+</html>
