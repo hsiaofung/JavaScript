@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="hide.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- 第19章 : JQuery -->
+    Hello
+    <!-- onclick 事件處理器 -->
+    <button onclick="hide(this, true); debug('hide button 1');">Hide1</button>
+    <button onclick="hide(this); debug('hide button 2');">Hide2</button>
+    World
+    <div>
+        <img src="new_design_pic2.jpg" height="100" width="100">
+        <img src="new_design_pic3.jpg" height="100" width="100">
+    </div>
+
+    <script>
+        //JQuery : 重寫debug.js
+        function debug(msg) {
+            var log = $("#debuglog") //尋找要在其中顯示msg的元素。
+            if (log.length == 0) { //如果不存在，就建立
+                log = $("<div id='debuglog'><h1>Debug Log</h1></div>");
+                log.appendTo(document.body); //並加至文件主體的尾端。
+            }
+            log.append($("<pre/>").text(msg)); //把msg包在<pre>中並附加至log。
+        }
+        //load 載入事件
+        //load 事件發生於文件完整載入時。
+        //通常我們需要等到這個事件發生之後才開始執行我們的JS程式碼
+        window.onload = function () { //當文件載入時執行這個函式
+            //在文件中尋找所有的<img>標記
+            var images = document.getElementsByTagName("img");
+
+            //使用迴圈為每一個都加上click事件的處理器
+            //如此當圖像被點擊時就會隱藏。
+            for (var i = 0; i < images.length; i++) {
+                var image = images[i];
+                if (image.addEventListener) //另外一個註冊處理器的方式
+                    image.addEventListener("click", hideImg, false);
+                else //為了與IE8(或之前版本)相容
+                    image.attachEvent("onclick", hideImg)
+            }
+            //這是上面註冊的事件處理函式
+            function hideImg(event) {
+                event.target.style.visibility = "hidden";
+            }
+        }
+    </script>
+</body>
+
+</html>

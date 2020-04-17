@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //第14章 :Window物件
+        function moveon() {
+            //顯示一個詢問使用者問題的modal方塊
+            var answer = confirm("Ready to move on?")
+            //如果它們按下OK鈕，瀏覽器會載入新的頁面
+            if (answer) window.location = "http://google.com";
+        }
+        //1秒(1,000毫秒)後執行上面定義的函式。
+        setTimeout(moveon, 1000);
+    </script>
+</body>
+
+</html>

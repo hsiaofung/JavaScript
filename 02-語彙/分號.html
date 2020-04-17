@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //述句不同行，分號可省略
+        a = 3
+        b = 4
+        //述句同一行，分號不可省略
+        a = 3; b = 4;
+
+        //第一行換行，因為沒有分號，無法解析var a a。
+        var a
+        a
+        =
+        5
+        console.log(a)
+
+        //這段程式碼解釋為 var y = x + f(a+b).toString();
+        var x,f
+        var y = x + f
+        (a+b).toString()
+
+        //防禦性作法
+        var x = 0 //在此省略分號
+        ;[x,x+1,x+2].forEach(console.log)//防禦性，讓這個述句與前一個保持分離
+
+        //這段會解釋成 return; true。絕對不能在return、break或continue之後插入換行。 
+        return 
+        true;
+
+        //這段會解釋成x;++y,而非x++; y。若++要當作x的後綴運算子，必須要在同一行。
+        x
+        ++
+        y
+    </script>
+</body>
+
+</html>

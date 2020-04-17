@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="debug.js"></script>
+    <script src="hide.js"></script>
+</head>
+
+<body>
+    <!-- 第17章 : 事件處理器 -->
+    Hello
+    <!-- onclick 事件處理器 -->
+    <button onclick="hide(this, true); debug('hide button 1');">Hide1</button>
+    <button onclick="hide(this); debug('hide button 2');">Hide2</button>
+    World
+    <div>
+        <img src="new_design_pic2.jpg" height="100" width="100">
+        <img src="new_design_pic3.jpg" height="100" width="100">
+    </div>
+
+    <script>
+        //load 載入事件
+        //load 事件發生於文件完整載入時。
+        //通常我們需要等到這個事件發生之後才開始執行我們的JS程式碼
+        window.onload = function () { //當文件載入時執行這個函式
+            //在文件中尋找所有的<img>標記
+            var images = document.getElementsByTagName("img");
+
+            //使用迴圈為每一個都加上click事件的處理器
+            //如此當圖像被點擊時就會隱藏。
+            for (var i = 0; i < images.length; i++) {
+                var image = images[i];
+                if (image.addEventListener) //另外一個註冊處理器的方式
+                    image.addEventListener("click", hideImg, false);
+                else //為了與IE8(或之前版本)相容
+                    image.attachEvent("onclick", hideImg)
+            }
+            //這是上面註冊的事件處理函式
+            function hideImg(event) {
+                event.target.style.visibility = "hidden";
+            }
+        }
+    </script>
+</body>
+
+</html>
