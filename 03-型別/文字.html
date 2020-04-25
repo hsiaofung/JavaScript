@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //字串字面值
+        "" //空字串: 它有零個字元
+        'testing'
+        "3.14"
+        'name="myform"'
+        "Wouldn't you prefer O'Reilly's book?"
+        console.log("This string\nhas two lines") //這個字串有兩行
+        console.log("two\nlines") //這個寫成一行的字串代表兩行
+        console.log("one\
+        long\
+        line") //寫成三行的單行字串
+
+        //轉義
+        console.log('You\'re right, it can\'t be a quote');
+
+        //字串處理
+        msg = "Hello, " + "world";
+        console.log(msg) //Hello, world
+        var name = "Tim"
+        greeting = "Welcome to my blog," + " " + name;
+        console.log(greeting)
+        console.log(msg.length) //字串長度
+
+        var s = "hello, world" //首先創建一些文字
+        console.log(s.charAt(0)) //=>"h":第一個字元
+        console.log(s.charAt(s.length - 1)) //=>"d":最後一個字元
+        console.log(s.substring(1, 4)) //=>"ell": 索引1，索引4之間的字元
+        console.log(s.slice(1, 4)) //=>"ell": 索引1，索引4之間的字元
+        console.log(s.slice(-3)) //=>"rld": 倒數三個字元
+        console.log(s.indexOf("l")) //=>2: 字母l的位置
+        console.log(s.lastIndexOf("l")) //=>10: 最後一個字母l的位置
+        console.log(s.indexOf("l", 3)) //=>3: 位置3(包括3)之後第一個"l"的位置。
+        console.log(s.split(", ")) //=>["hello", "world"]: 切為子字串
+        console.log(s.replace("h", "H")) //=>"Hello, world": 用H取代所有的h
+        console.log(s.toUpperCase()) //=>Hello WORLD: (轉為大寫)
+        console.log(s[0]) //=>h: 
+        console.log(s[s.length - 1]) //=>d: 
+
+        //範式比對
+        var pattern = /^HTML/; //匹配(match)一個字串開頭字母是HTML
+        pattern = /[1-9][0-9]*/; //匹配一個非零數字，後面接著任意個數的數字 
+        pattern = /\bjavascript\b/i; //匹配"javascript"這個字，大小寫視為相同。
+        var text = "testing: 1, 2, 3"; //樣本文字
+        pattern = /\d+/g; //匹配所有一或多個數字的實例。
+        console.log(pattern.test(text)) //=>true: 找到匹配
+        console.log(text.search(pattern)) //=>9:第一個匹配的位置
+        console.log(text.match(pattern)) //=>["1","2","3"]:所有匹配組成的陣列
+        console.log(text.replace(pattern, "#")) //=> "testing: #, #, #"
+        console.log(text.split(/\D+/)) //=>["","1","2","3"]: 以非數字為區隔，劃分為子字串
+    </script>
+</body>
+
+</html>

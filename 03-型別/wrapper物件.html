@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var s = "test"; //創建一字串值
+        s.len = 4; //在其上設定一個特性
+        var t = s.len //現在查用此特性
+        console.log(t) //=> undefined
+
+        var s = "test",
+            n = 1,
+            b = true; //字串、數字與boolean值
+        var S = new String(s) //一個String物件
+        var N = new Number(n) //一個Number物件
+        var B = new Boolean(b) //一個Boolean物件
+        console.log(S)
+        console.log(N)
+        console.log(B)
+    </script>
+</body>
+
+</html>

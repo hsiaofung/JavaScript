@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var s = "hello"; //創建小寫文字
+        s.toUpperCase(); //回傳HELLO, 但沒有更動s
+        console.log(s) //=>"hello": 原字串並未改變
+
+        //兩個個別的物件永不相等
+        var o = {
+                x: 1
+            },
+            p = {
+                x: 1
+            };
+        console.log(o === p); //=>false:兩個個別的物件永不相等。
+
+        //a與b參考到同一個陣列，所以他們相等。
+        var a = []; //變數a指定空陣列
+        var b = a; //b指到同一個陣列。
+        b[0] = 1;
+        console.log(a[0]); //=>1 : 透過變數a也可以看到這個變數
+        console.log(a === b); //=>true : a與b參考到同一個陣列，所以他們相等。
+
+        //複製陣列
+        var a = ['a', 'b', 'c'] //想要複製的陣列
+        var b = []; //另外一個陣列，要把元素複製至此。
+        for (var i = 0; i < a.length; i++) { //對a[]的每一個索引位置
+            b[i] = a[i] //複製a的一個元素至b
+        }
+        console.log(a === b); //=>false:兩個個別的物件永不相等。
+
+        //比較陣列
+        function equalArrays(a, b) {
+            if (a.length != b.length) return false; //大小不同的陣列及不相等。
+            for (var i = 0; i < a.length; i++) //查看所有元素
+                if (a[i] !== b[i]) return false; //只要有一個不相等，兩個陣列就不相等。
+            return true //否則他們相等
+        }
+        console.log(equalArrays(a, b)); //=>true:比較兩個陣列
+    </script>
+</body>
+
+</html>
