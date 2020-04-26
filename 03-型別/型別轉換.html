@@ -10,5 +10,80 @@
 <body>
 
 </body>
+<script>
+    console.log(10 + " objects") //=> "10 objects"。數字10轉為字串
+    console.log("7" * "4") //=> 28: 兩個字串接轉為數字    
+    var n = 1 - "x";
+    console.log(n) //=> NaN
+    console.log(n + " objects") //=> "NaN objects": NaN轉為字串 "NaN"
+
+    //轉換與相等性
+    console.log(null == undefined) //這兩個值被視為相等
+    console.log("0" == 0) //在比較之前，字串會轉為數字
+    console.log(0 == false) //在比較之前，Boolean 會轉為數字
+    console.log("0" == false) //在比較之前，兩個運算元會轉為數字
+
+    //明確的轉換
+    console.log(Number("3")) //=> 3
+    console.log(String(false)) //=> "false"
+    console.log(false.toString()) //=> "false"
+    console.log(Boolean([])) //=> true
+    console.log(Boolean(0)) //=> false
+    console.log(Boolean(Number(0))) //=> false
+    console.log(Boolean({})) //=> true
+    console.log(Object(3)) //=> new Number(3)
+
+    //隱含的型別轉換
+    var x = 5;
+    console.log(x + "") //=> "5"，結果與String(x)相同
+    console.log(+x) //=> 5，等同Number(x)。你可能也見過x-0
+    console.log(!!x) //等同Boolean(x)。注意這裡有兩個!
+
+    //基底轉換(number-to-string)
+    var n = 17;
+    binary_string = n.toString(2);
+    console.log(binary_string) //=> "10001"
+    octal_string = "0" + n.toString(8); //=>"021"
+    console.log(octal_string) //=> "021"
+    hex_string = "0x" + n.toString(16) //=> "0x11"
+    console.log(hex_string) //=> "0x11"
+
+    //小數點(number-to-string)
+    var n = 123456.789;
+    console.log(n.toFixed(0)); //"123457"
+    console.log(n.toFixed(2)); //"123456.79"
+    console.log(n.toFixed(5)); //"123456.78900"
+
+    //使用指數記號將數字轉為字串
+    console.log(n.toExponential(1)); //"1.2e+5": 小數點前1位
+    console.log(n.toExponential(3)); //"1.235e+5": 小數點前3位
+
+    //toPrecision : 根據你的有效位數將數字轉為字串
+    console.log(n.toPrecision(4)); //"1.235e+5": 
+    console.log(n.toPrecision(7)); //"123456.8"
+    console.log(n.toPrecision(10)); //"123456.7890" : 補0
+
+    //字串轉數字
+    console.log(Number('3 blind mice')); //=> NaN
+    console.log(parseInt('3 blind mice')); //=> 3
+    console.log(parseFloat(' 3.14 meters')); //=> 3.14
+    console.log(parseInt('-12.34')); //=>-12
+    console.log(parseInt('0xFF')); //=>255
+    console.log(parseInt('0xff')); //=>255
+    console.log(parseInt('-0xFF')); //=>-255
+    console.log(parseFloat('.1')); //=>0.1
+    console.log(parseInt('0.1')); //=>0
+    console.log(parseInt('.1')); //=>NaN: 整數不可用"."開頭
+    console.log(parseFloat('$72.47')); //=>NaN: 數字不可用"$"開頭
+    console.log(parseInt('$72.47')); //=>NaN: 數字不可用"$"開頭
+    console.log(parseInt('my price is 57')); //=>NaN: 必須數字開頭
+
+    //指定用什麼基底來解析數字
+    console.log(parseInt('11', 2)); //=>3 (1*2 + 1)
+    console.log(parseInt('ff', 16)); //=>255: (15*16 + 15)
+    console.log(parseInt('zz', 36)); //=>1295: (35*36 + 35)
+    console.log(parseInt('077', 8)); //=>63: (7*8 + 7)
+    console.log(parseInt('077', 10)); //=>77: (7*10 + 7)
+</script>
 
 </html>
