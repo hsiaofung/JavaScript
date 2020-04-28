@@ -84,6 +84,29 @@
     console.log(parseInt('zz', 36)); //=>1295: (35*36 + 35)
     console.log(parseInt('077', 8)); //=>63: (7*8 + 7)
     console.log(parseInt('077', 10)); //=>77: (7*10 + 7)
+
+    //物件到基型值轉換(toString)
+    console.log(({x:1, y:2}).toString()) //=>"[object object]"
+    console.log([1,2,3].toString());//=>"1,2,3"
+    console.log((function(x){f(x);}).toString());//=>function(x){f(x)}
+    console.log(/\d+/g.toString()) //=>/\d+/g
+    console.log(new Date(2010,0,1).toString());//=>"Fri Jan 01 2010 00:00:00 GMT+0800 (台北標準時間)"
+
+    //物件到基型值轉換(valueOf)
+    var d = new Date(2010, 0, 1)    
+    console.log(d.valueOf())//=>1262275200000
+
+    //運算子轉換
+    var now = new Date(); //創建一個Date 物件
+    console.log(typeof(now)) //
+    console.log(typeof(now + 1)) //=>string: 將日期轉為字串
+    console.log(typeof(now - 1)) //=>number: 將日期轉為數字
+    console.log(now) //=>Tue Apr 28 2020 11:47:11 GMT+0800 (台北標準時間)
+    console.log(now - 0) //=>1588045602449
+    console.log(now - 1) //=>1588045602448
+    console.log(now + 1) //=>Tue Apr 28 2020 11:49:07 GMT+0800 (台北標準時間)1
+    console.log(now == now.toString()) //=>true: 隱含的與明確的字串轉換
+    console.log(now > now-1) //=>true: > 將Date物件轉為數字
 </script>
 
 </html>
