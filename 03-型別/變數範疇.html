@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var scope = "global"; //宣告一個全域變數
+      function checkscope() {
+        var scope = "local"; //宣告一個同樣名稱的區域變數
+        return scope; //回傳一個區域變數的值，而非全域變數的值
+      }
+      console.log(checkscope()); //=>local
+
+      //不宣告var
+      scope2 = "global"; //就算不用var 也能宣告全域變數
+      function checkscope2() {
+        scope2 = "local"; //對全域變數作變更
+        myscope = "local"; //這隱含宣告一個全域變數
+        return [scope2, myscope];
+      }
+      console.log(checkscope2()); //=>["local", "local"]
+      console.log(scope2); //=>"local" : 全域變數被更新
+      console.log(myscope); //=>"local" : 全域也看得到，全域/區域命名空間被搞亂了。
+
+      //函數定義可以巢狀
+      var scope = "global scope"; //一個全域變數
+      function checkscope() {
+        var scope = "local scope"; //一個區域變數
+        function nested() {
+          var scope = "nested scope"; //區域變數的巢狀範疇
+          return scope; //回傳這裡的scope值
+        }
+        return nested();
+      }
+      console.log(checkscope()); //=>"nested scope"
+
+      //函式範疇與Hosting
+      //i, j, k在不同的地方宣告，但都有同一個範疇。
+      function test(o) {
+        var i = 0; //i在函式中每個地方都有定義
+        if (typeof o == "object") {
+          var j = 0; //j在函式中每個地方都有定義，不僅在區塊中。
+          for (var k = 0; k < 10; k++) {
+            //k在函式中每個地方都有定義，不僅在迴圈中。
+            console.log(k); //印出數字0到9
+          }
+          console.log(k); //k仍有定義:印出數字10
+        }
+        console.log(j); //j有定義，但未必經過初始化。
+      }
+      test({ a: 1, b: 2, c: 3 });
+
+      //Hosting
+      var scope = "global";
+      function f1() {
+        console.log(scope); //印出"undefined"，而非"global"
+        var scope = "local"; //變數在此設定初值，但在函式中每個地方都有定義。
+        console.log(scope);
+      }
+      f1();
+      //f1 等同於f2
+      function f2() {
+        var scope; //區域變數在函式最上方宣告
+        console.log(scope); //該變數在此時已經存在，但其值仍是"undefined"
+        scope = "local"; //現在我們將他初始化，並給值。
+        console.log(scope); //這裡就有我們預期的值了。
+      }
+      f2();
+      function f3() {
+        console.log(scope); //=>global
+        scope = "local";
+        console.log(scope); //=>local
+      }
+      f3();
+
+      //作為特性的變數
+      var truevar = 1; //一個正當宣告的全域變數，不可刪除
+      fakevar = 2; //為全域物件創建一個可刪除的(deletable)特性。
+      this.fakevar2 = 3; //這也具有同樣效果。
+      console.log(delete truevar); //false:變數沒有被刪除
+      console.log(delete fakevar); //true:變數已刪除
+      console.log(delete this.fakevar2); //true:變數已刪除
+    </script>
+  </body>
+</html>

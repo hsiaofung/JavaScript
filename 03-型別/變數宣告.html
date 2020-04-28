@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var i;
+      var sum;
+      //同一個var關鍵字宣告多個變數
+      var i, sum;
+
+      //變數的宣告和初始化結合在一起
+      var message = "hello";
+      var i = 0,
+        j = 0,
+        k = 0;
+
+      //var 作為for迴圈的一部分
+      var o = { a: 1, b: 2, c: 3 };
+      for (var i = 0; i < 10; i++) console.log(i);
+      for (var i = 0, j = 10; i < 10; i++, j--) console.log(i * j);
+      for (var p in o) console.log(p, o[p]); //=>a 1 b 2 c 3: pro:value
+
+      //可任意指定型別
+      var i = 10;
+      i = "ten";
+      console.log(i);
+    </script>
+  </body>
+</html>
