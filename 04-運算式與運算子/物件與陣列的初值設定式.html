@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //陣列初值設定式: 陣列初值設定式的值是一個新創建的陣列。
+      []; //一個空陣列: 中括號內沒有運算式代表沒有元素
+      [1 + 2, 3 + 4]; //一個雙元素陣列。第一個元素是3，第二個是7
+      var matrix = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+      ];
+
+      //陣列字面值中可以包含未定義的元素
+      var sparseArray = [1, , , , 5]; //=>包含5個元素，其中三個未定義。
+      console.log(sparseArray);
+
+      //物件初值設定運算式
+      var p = { x: 2.3, y: -1.2 }; //有雙特性的物件
+      var q = {}; //沒有特性的空物件
+      q.x = 2.3;
+      q.y = -1.2; //現在 q 與 p 有同樣的特性
+
+      //巢狀物件字面值
+      var rectangle = { upperLeft: { x: 2, y: 2 }, lowerRight: { x: 4, y: 5 } };
+      console.log(rectangle)
+
+      //物件字面值中的特性名稱可以是字串，而不一定要是識別字(若要指定關鍵字或不合法的識別字作為特性名稱時，這很有用)
+      var side = 1;
+      var square = {
+        "upperLeft": { x: p.x, y: p.y },
+        'lowerRight': { x: p.x + side, y: p.y + side },
+      };
+      console.log(square)
+
+      var side = 1;
+      var square = {
+        "upper-Left": { x: p.x, y: p.y },
+        '2lower-Right': { x: p.x + side, y: p.y + side },
+      };
+      console.log(square)
+      console.log(square["2lower-Right"])
+    </script>
+  </body>
+</html>

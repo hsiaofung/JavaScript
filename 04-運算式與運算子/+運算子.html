@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      console.log(1 + 2); //=>3 : 加法
+      console.log("hello" + " " + "there"); //=>"hello there": 串接
+      console.log("1" + "2"); //=>12 : 串接
+      console.log("1" + 2); //=>12: number-to-string 轉換後串接
+      console.log(1 + {}); //=>1[object object]: object-to-string 轉換後串接
+      console.log(true + true); //=>2: 不是物件，boolean-to-number 轉換後相加
+      console.log(2 + null); //=>2: 不是物件，將null轉為數字0後相加
+      console.log(2 + undefined); //=>NaN: 不是物件，將undefined 轉為NaN後相加。
+      console.log(1 + 2 + " blind mice"); //=>3 blinde mice
+      console.log(1 + (2 + " blind mice")); //=>12 blinde mice
+    </script>
+  </body>
+</html>

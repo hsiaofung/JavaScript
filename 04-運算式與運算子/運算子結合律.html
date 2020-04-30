@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //減法運算子有從左至右的結合律
+      w = x - y - z;
+      //等同於
+      w = ((x - y) - z);
+
+      //一元、指定三元條件運算子都有從右至左的結合律。
+      x = ~-y;
+      w = x = y = z;
+      q = a?b:c?d:e?f:g;
+      //等同於
+      x = ~(-y)
+      w = (x = (y = z));
+      q = a?b:(c?d:(e?f:g));
+    </script>
+  </body>
+</html>

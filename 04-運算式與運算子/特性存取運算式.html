@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var o = { x: 1, y: { z: 3 } }; //一個範例物件
+      var a = [o, 4, [5, 6]]; //一個包含上述物件的範例陣列
+
+      console.log(o.x); //=>1:運算式o的特性x
+      console.log(o.y.z); //=>3:運算式o.y的特性z
+      console.log(o["x"]); //=>1:物件o的特性x
+      console.log(a[1]); //=>4:運算式a中索引為1的元素
+      console.log(a[2]["1"]); //=>6:運算式a[2]中索引為1的元素
+      console.log(a[0].x); //=>1:運算式a[0]的特性x
+    </script>
+  </body>
+</html>
