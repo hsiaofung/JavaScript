@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //var
+        var i; //一個簡單的變數
+        var j = 0; //一個var 述句，包含一個變數與其初值設定值  
+        var p, q; //兩個變數
+        var greeting = "hello" + name; //一個複雜的初值設定
+        var x = 2.34,
+            y = Math.cos(0.75),
+            r, theta; //許多變數
+        var x = 2,
+            y = x * x; //第二個變數用到第一個值
+        var x = 2, //多個變數，每個自成一行
+            f = function (x) {
+                return x * x
+            },
+            y = f(x);
+
+        //var在迴圈中
+        var o = {
+            x: 1,
+            y: 2
+        }
+
+        for (var i = 0; i < 10; i++) console.log(i)
+        for (var i = 0, j = 10; i < 10; i++, j--) console.log(i * j)
+        for (var i in o) console.log(i)
+
+        //function宣告範例
+        var f = function (x) {
+            return x + 1;
+        } //指定給變數的運算式
+   
+        function f(x) {
+            return x + 1;
+        } //包含變數名稱的述句
+
+        //函式宣告範例
+        function hypotenuse(x, y) {
+            return Math.sqrt(x * x + y * y)
+        }
+
+        function factorial(n) { //一個遞迴函式
+            if (n <= 1) return 1;
+            return n * factorial(n - 1);
+        }
+    </script>
+</body>
+
+</html>

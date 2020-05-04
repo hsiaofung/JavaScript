@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <script>
+      //if
+      if (username == null)
+        //如果username是null或undefined
+        username = "John Dow"; //就定義它
+      if (!username) username = "John Dow"; //如果username是null、undefined、false、0、""或NaN，就給它個新值
+
+      //述句區塊
+      if (!address) {
+        address = "";
+        message = "Please specify a mailing address.";
+      }
+
+      //if else
+      if (n == 1) console.log("You have 1 new message.");
+      else console.log("You have" + n + "new message.");
+
+      //沒有使用大括號
+      i = j = 1;
+      k = 2;
+
+      if (i == j) {
+        if (j == k) console.log("i equals k");
+        else console.log("i doesn't equal j"); //錯誤!!，else 子句屬於最接近的if述句
+      }
+
+      //使用大括號，讓程式更容易閱讀、理解、維護與除錯。
+      if (i == j) {
+        if (j == k) {
+          console.log("i equals k");
+        }
+      } else {
+        //大括號所在的位置會造成很大的差異。
+        console.log("i doesn't equal j");
+      }
+
+      //else if : 多段程式碼中選出一段來執行時
+      //if else 的風格
+      if (n == 1) {
+        //執行程式區塊1
+      } else if (n == 2) {
+        //執行程式區塊2
+      } else if (n == 3) {
+        //執行程式區塊3
+      } else {
+        //如果所有的條件都不滿足，就執行程式區塊4
+      }
+
+      //else if 風格 : 清楚易讀
+      if (n == 1) {
+        //執行程式區塊1
+      } else {
+        if (n == 2) {
+          //執行程式區塊2
+        } else {
+          if (n == 3) {
+            //執行程式區塊3
+          } else {
+            //如果所有的條件都不滿足，就執行程式區塊4
+          }
+        }
+      }
+
+      //switch
+      switch (n) {
+        case 1: //如果n===1就從這裡開始
+          //執行程式區塊1。
+          break;
+        //stop here
+        case 2: //如果n===2就從這裡開始
+          //執行程式區塊2。
+          break; //在這裡停止執行
+        case 3: //如果n===3就從這裡開始
+          //執行程式區塊3。
+          break; //在這裡停止執行
+        default:
+          //如果都沒找到相同值
+          //執行程式區塊4。
+          break; //在這裡停止執行
+      }
+
+      //函式中的switch : 根據一個值的型別將之轉換成字串
+      function convert(x) {
+        switch (typeof x) {
+          case "number": //將數字轉為16進位整數
+            return x.toString(16);
+          case "string": //回傳用引號圍住的字串
+            return '"' + x + '"';
+          default:
+            //將其他型別用普通的方式轉換
+            return String(x);
+        }
+      }
+    </script>
+  </body>
+</html>

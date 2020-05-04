@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //述句區塊: 用大括號圍住的述句序列
+        {
+            x = Math.PI;
+            cx = Math.cos(x);
+            console.log("cos(0) = " + cx);
+        }
+
+        //空述句 : 在預期單一述句的地方，一個述句也不放
+        //創建一個沒有主體的迴圈
+        //初始化陣列a
+        for (i = 0; i < a.length; a[i++] = 0);
+
+        //在for，while，if述句右括號之後放上一個分號，可能會導致難以察覺的臭蟲
+        if ((a == 0) || (b == 0)); //糟糕!這行啥都沒做
+        o = null; //而這行每次都會被執行。
+
+        //使用空述句時，最好加上註解。
+        for (i = 0; i < a.length; a[i++] = 0); /*empty*/
+    </script>
+</body>
+
+</html>
