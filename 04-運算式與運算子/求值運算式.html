@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        console.log(eval("3+2")) //=>5
+
+
+
+
+
+        var geval = eval; //使用另一個名稱來進行全域eval
+        var x = "global",
+            y = "global"; //兩個全域變數
+
+        function f1() { //這個函式進行區域eval
+            var x = "local"; //定義一個區域變數
+            eval("x += 'changed';"); //定義區域變數的Direct eval
+            return x; //回傳更動後的區域變數
+        }
+
+        function g() { //這個函式進行全域eval
+            var y = "local"; //定義一個區域變數
+            geval("y += 'changed';"); //非直接eval 設定全域變數
+            return y; //回傳未經變動的區域變數
+        }
+        console.log(f1(), x); //區域變數已改變: 印出"localchanged global"
+        console.log(g(), y); //全域變數已改變: 印出local globalchanged"
+
+        //eval 宣告的函式會是最後一個取用的函式。
+        //宣告函式      
+        function f() {
+            return "zzzz"
+        }
+        eval("function f() {return x+1;}")
+
+        function f() {
+            return "aaaa"
+        }
+        console.log(f()); //=>global1
+    </script>
+</body>
+
+</html>

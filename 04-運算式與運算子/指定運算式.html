@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var o = {
+            x: 1,
+            y: 0
+        }
+        i = 0; //將變數i設為0
+        o.x = 1; //將物件o的特性x設成1
+
+        //指定並測試一個值
+        var a, b;
+        (a = b) == 0
+
+
+        //將一個值指定給多個變數
+        i = j = k = 0; //將3個變數初始為0
+
+        //運算後指定
+        var total, sales_tax;
+        total += sales_tax;
+        //與這個等效
+        total = total + sales_tax;
+
+        //下面兩個指定並不相同
+        var data1 = [1, 2, 3, 4, 5];
+        var i = j = 0;
+
+        data1[i++] *= 2; //後遞增，估算的結果值是為遞增前的運算元的值。
+        //i被估算1次: data1[0] = data1[0] *2         
+        console.log(data1.toString()); //2,2,3,4,5        
+
+        var data2 = [1, 2, 3, 4, 5];
+        data2[j++] = data2[j++] * 2; //後遞增，估算的結果值是為遞增前的運算元的值。
+        //j被估算2次: data2[0] = data2[1] *2
+        console.log(data2.toString()) //4,2,3,4,5
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //條件運算子
+        var x, username, value;
+        x > 0 ? x : -x //x的絕對值
+
+        //用來確定一個變數是否已被定義，如果有就拿來用，如果沒有就用預設值。
+        greeting = "hello " + (username ? username : "there");
+        //等效if
+        greeting = "hello ";
+        if (username)
+            greeting += username;
+        else
+            greeting += "there";
+
+        //typeof運算子    
+        (typeof value == "string") ? "'" + value + "'": value
+
+        var i = 3;
+        console.log(typeof (i))
+
+        //delete運算子 : 會嘗試刪除它運算元指定的物件特性或陣列元素。
+        var o = {
+            x: 1,
+            y: 2
+        } //先創建一個物件
+        delete o.x //刪除它的一個特性
+        console.log("x" in o) //=>false: 該特性已不復存在
+
+        var a = [1, 2, 3]; //新創一個陣列
+        delete a[2]; //刪除該陣列最後一個元素
+        2 in a //=>false: 陣列元素2已不存在。
+        a.length //=>3:但請注意陣列的長度並未改變(稀疏陣列)
+
+        var o = {
+            x: 1,
+            y: 2
+        } //定義一個變數，初始為一個物件
+        console.log(delete o.x); //定義物件的其中一個特性，回傳true
+        console.log(typeof o.x); //特性不存在，回傳undefined
+        console.log(delete o.x); //刪除一個不存在的特性，回傳true
+        console.log(delete o); //不能刪除一個宣告出來的變數，回傳false
+        //在strict模式中會產生例外。
+
+        console.log(delete 1); //引數不是lvalue: 回傳true
+        this.xb = 1; //不用var定義一個全域物件的特性
+        console.log(delete xb); //試著刪除它: 在非strict模式中回傳true
+        //在strict模式中是例外。改用 'delete this.x'       
+
+        //逗號運算子
+        var i = 0,
+            j = 1,
+            k = 2;
+        //等同於
+        i = 0;
+        j = 1;
+        k = 2;
+
+        //逗號運算子常用於迴圈中
+        //下面第一個逗號是var 述句語法的一部分
+        //第二個逗號是逗號運算子: 它讓我們可以將兩
+        //個運算式(i++與j--)擠進預期單一運算式的述句(for迴圈)中。
+        for (var i = 0, j = 10; i < j; i++, j--)
+            console.log(i + j);
+    </script>
+    <!-- void 運算子 -->
+    <!-- 估算運算元，然後丟棄結果值，回傳undefined -->
+    <a href="javascript:void window.open();"> Open New Window</a>
+</body>
+
+</html>

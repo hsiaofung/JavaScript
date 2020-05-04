@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //相等性與不等性運算子
+        console.log("1" == true) //Boolean true 會先轉為數字1，比一次。然後字串1會轉為數字1。兩個值都是1，相同，傳回true。
+
+        //比較運算子
+        console.log(1 + 2) //加法。結果是3
+        console.log("1" + "2") //串接。結果是"12"
+        console.log("1" + 2) //串接。2被轉為"2"。結果是"12"
+        console.log(11 < 3) //數值比較。結果為false
+        console.log("11" < "3") //字串比較。結果為true
+        console.log("11" < 3) //數值比較。"11"轉11。結果為false
+        console.log("one" < 3) //數值比較。"one"轉NaN。結果為false
+
+        //in 運算子
+        var point = { //定義一個物件
+            x: 1,
+            y: 1
+        }
+        console.log("x" in point) //=>true:物件有個名為"x"的特性。
+        console.log("z" in point) //=>false:物件沒有"z"的特性。
+        console.log("toString" in point) //=>true:物件繼承toString的方法。
+
+        var data = [7, 8, 9] //有元素0、1、2的陣列
+        console.log("0" in data) //=>true:陣列有元素0(即7)。
+        console.log(1 in data) //=>true:數字被轉成字串
+        console.log(3 in data) //=>false:沒有元素3
+
+        //instanceof運算子
+        var d = new Date(); //使用Date()建構式創建一個物件。
+        console.log(d instanceof Date) //=>true:d是用Date()創建的。
+        console.log(d instanceof Object) //=>true:所有物件都是Object的實體。
+        console.log(d instanceof Number) //=>false:d並非Number物件。
+
+        var a = [1, 2, 3] //使用陣列字面值語法創建一個陣列
+        console.log(a instanceof Array) //=>true:a是個Array。
+        console.log(a instanceof Object) //=>true:所有陣列都是物件。
+        console.log(a instanceof RegExp) //=>false:陣列並非正規運算式。
+    </script>
+</body>
+
+</html>

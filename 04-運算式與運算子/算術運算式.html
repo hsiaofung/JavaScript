@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    console.log(5 / 2); //=>2.5不是2
+    console.log(0 / 0); //=>NaN
+    console.log(5 % 2); //=>1
+    console.log(-5 % 2); //=>-1
+    console.log(5 % -2); //=>1: 結果的正負號和第一個運算元相同
+    console.log(6.5 % 2.1); //=>0.19999999999999973
+
+    //+ 運算子
+    console.log(1 + 2); //=>3 : 加法
+    console.log("hello" + " " + "there"); //=>"hello there": 串接
+    console.log("1" + "2"); //=>12 : 串接
+    console.log("1" + 2); //=>12: number-to-string 轉換後串接
+    console.log(1 + {}); //=>1[object object]: object-to-string 轉換後串接
+    console.log(true + true); //=>2: 不是物件，boolean-to-number 轉換後相加
+    console.log(2 + null); //=>2: 不是物件，將null轉為數字0後相加
+    console.log(2 + undefined); //=>NaN: 不是物件，將undefined 轉為NaN後相加。
+    console.log(1 + 2 + " blind mice"); //=>3 blinde mice
+    console.log(1 + (2 + " blind mice")); //=>12 blinde mice
+
+    //一元算術運算子
+    var i = 1,
+      j = ++i; //先遞增: 遞增運算元，估算的結果值為遞增後的運算元的值。
+    console.log(i, j); //i 與j 兩者皆為2
+
+    var i = 1,
+      j = i++; //後遞增: 遞增運算元，但估算的結果值是未遞增前的運算元的值。
+    console.log(i, j); //i 為 2，j是1
+
+    //位元運算子
+    console.log((0x1234 & 0x00ff).toString(16)); //=>0x0034
+    console.log((0x1234 | 0x00ff).toString(16)); //=>0x12FF
+    console.log((0xff00 ^ 0xf0f0).toString(16)); //=>0x0FF0
+    console.log(~0x0f); //=>-16
+    console.log(~(0x0f).toString(16)); //=>-0x1
+    console.log(7 << 2); //=>28 : 左移等同於將它乘以2
+    console.log(7 >> 1); //=>3 : 有號右移等同於將它除以2
+    console.log(-7 >> 1); //=>-4 : 有號右移等同於將它除以2
+    console.log(-1 >> 4); //=>-1 : 有號右移等同於將它除以2
+    console.log("0x" + (-1 >>> 4).toString(16)); //=> 0xfffffff: 補零右移
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //邏輯AND(&&) : 常用來當作連接兩個關係運算式的連接詞
+        var x, y;
+        console.log(x == 0 && y == 0) //只有在x與y兩者都是0時才會是true
+
+        var o = {
+            x: 1
+        }
+        var p = null;
+        console.log(o && o.x) //=>1: o為truthy，所以回傳o.x的值。
+        console.log(p && p.x) //=>null: p是falsy，所以回傳它，並且不估算p.x
+        //p.x只有在p是truthy時才被估算，是null或undefined時就不會。
+
+        var a, b;
+        if (a == b) stop(); //只有在a==b時才調用stop()
+        (a == b) && stop(); //這也是做同樣的事
+
+        //邏輯OR(||)
+        //如果max_width有定義，就用該值，否則就在preferences物件中
+        //找尋可用的值。如果沒有定義，那就直接使用寫在程式碼中的常數。
+        var max = max_width || preferences.max_width || 500;
+
+        //這個慣用法經常用於函式主體中為參數提供預設值。  
+        function copy(o, p) {
+            p = p || {}; //如果沒有傳入物件作為p，就用一個新創物件。
+            //這裡為函式主體。  
+        }
+
+        //邏輯NOT(!)
+        //可以用!!把任何運算元轉成Boolean值
+        !!x
+        //對任何p與q值，以下兩個等式都成立
+        !(p && q) === !p || !q;
+        !(p || q) === !p && !q;
+    </script>
+</body>
+
+</html>
