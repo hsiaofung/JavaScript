@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <script>
+      //while
+      var count = 0; //初始化
+      while (count < 10) {
+        //測試
+        console.log(count);
+        count++; //更新
+      }
+
+      // do/while
+      function printArray(a) {
+        var len = a.length,
+          i = 0;
+        if (len == 0) console.log("Empty Array");
+        else {
+          do {
+            console.log(a[i]);
+          } while (++i < len); //do迴圈一定要用分號結尾
+        }
+      }
+      printArray([1, 2, 3, 4, 5, 6]);
+
+      //for : 初始化，測試，更新
+      for (var count = 0; count < 10; count++) console.log(count);
+
+      //多個變數隨著迴圈的迭代而改變
+      var i, j;
+      var sum = 0;
+      for (i = 0, j = 10; i < 10; i++, j--) sum += i * j;
+
+      //迴圈變數也可以不是數值
+      //用for 迴圈來巡訪鏈結串列(linked list)資料結構，並回傳串列中最後一個物件。
+      function tail(o) {
+        //回傳鏈結串列的結尾o
+        for (; o.next; o = o.next); /*empty*/ //只要o.next為truthy就巡訪。
+        return o;
+      }
+
+      //無窮迴圈
+      //while (true);
+      //for (;;);
+
+      //for/in
+      //for 迴圈: 遍歷陣列元素的迭代
+      var a = [1, 2, 3, 4, 5, 6];
+      for (var i = 0; i < a.length; i++) {
+        //將陣列索引指定給變數i
+        console.log(a[i]); //印出每個陣列的元素值
+      }
+      //for/in 迴圈: 讓物件特性上同樣的動作變得容易
+      for (var p in o) {
+        //指定o的特性名稱給變數p
+        console.log(o[p]); //印出每個特性值
+      }
+
+      //將所有的特性名稱複製到陣列中
+      var o = { x: 1, y: 2, z: 3 };
+      var a = [],
+        i = 0;
+      //在每次迭代之前，直譯器會估算variable運算式，並把特性名稱指定給它。
+      for (a[i++] in o); /*empty*/
+      console.log(a.toString()); //=>x,y,z
+
+      //陣列也是物件，陣列索引是可用for/in列舉的物件特性。
+      for (i in a) console.log(i); //=>0,1,2
+    </script>
+  </body>
+</html>

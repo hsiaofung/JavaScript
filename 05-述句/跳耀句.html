@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //具有標籤的述句
+        var token;
+        mainloop: while (token != null) {
+            console.log('A')
+            continue mainloop; //跳至具名(named)迴圈的下一回迭代            
+        }
+
+        //搜尋某個特定值，如果在到達陣列尾端前就找到，使用break述句跳離
+        var a = [1, 2, 3, 4, 5],
+            target = 4;
+
+        for (var i = 0; i < a.length; i++) {
+            if (a[i] == target) break;
+            console.log(a[i])
+        }
+
+        //標籤形式的break述句 : 如果你要break跳離的述句，並非最接近的
+        //外圍迴圈或switch，你就要用標籤形式的break述句             
+        var matrix = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]
+        ]; //從某處取得一個數字的二維陣列
+        //現在計算矩陣(matrix)中所有數字的總和。
+        var sum = 0,
+            success = false;
+        //創建一個發生錯誤時可跳離的具標籤述句
+        compute_sum: if (matrix) {
+            for (var x = 0; x < matrix.length; x++) {
+                var row = matrix[x];
+                if (!row) break compute_sum;
+                for (var y = 0; y < row.length; y++) {
+                    var cell = row[y];
+                    if (isNaN(cell)) break compute_sum;
+                    sum += cell;
+                }
+            }
+            success = true
+        }
+        //break 述句跳至此處。如果我們抵達這裡時，success == false
+        //那麼我們取得的矩陣必有某些錯誤。
+        //若非如此，sum就包含了矩陣每一格(cell)的總和。
+        if (success == true) console.log(sum)
+
+        //continue : 不是跳離迴圈，而是重新開始下次迭代。
+        var data = [1, 2, 3, 4, undefined, 5, 6, 7],
+            total = 0;
+
+        for (i = 0; i < data.length; i++) {
+            if (!data[i]) continue; //如果資料是undefined就無法繼續
+            total += data[i];
+        }
+        console.log(total)
+
+        //return後加運算式的用法:
+        function square(x) {
+            return x * x
+        } //具有return 述句的函式
+        console.log(square(2))
+
+        //return後不加運算式的用法: 
+        function display_object(o) {
+            //如果引數為null或undefined就立即回傳。
+            if (!o) return;
+            //函式其他部分在此....
+        }
+
+        //throw
+        function factorial(x) {
+            //如果輸入的引數無效，擲出例外!
+            if (x < 0) throw new Error("x must not be negative");
+            //否則，算出一個值，並回傳
+            for (var f = 1; x > 1; f *= x, x--); //empty
+            return f;
+        }
+        // console.log(factorial(-5))
+
+        //try/catch/finally
+        try {
+            //正常來說，這段程式碼會從區塊頭執行至區塊尾，
+            //沒有問題發生。但它有時可能會擲出例外，不管是直接
+            //使用throw述句，或是藉由呼叫
+            //會擲出例外的方法，間接產生例外。
+        } catch (e) {
+            //這區塊裡的述句只有在try區塊擲出例外時
+            //才會被執行。這些述句可用區域變數e來參考
+            //擲出的Error物件或其他值。
+            //這個區塊可用某些方式處理例外，或是忽略該例外，
+            //什麼也不做，或是用throw再次擲出
+        } finally {
+            //這個區塊所包含的述句永遠都會被執行，不管
+            //try區塊中發生了什麼事。try區塊以下列任一種方式終止時，
+            //它們就會被執行:
+            //1)抵達區塊結尾後正常結束
+            //2)因為break、continue或return 述句
+            //3)有例外發生，並被上方的catch子句所處裡
+            //4)有個未被接獲的例外，仍在傳遞
+        }
+
+        try {
+            //請使用者輸入一個數字
+            var n = Number(prompt("Please enter a positive integer", ""));
+            //假設輸入有效，計算該數的階乘值
+            var f = factorial(n);
+            //顯示結果
+            alert(n + "! = " + f);
+        } catch (ex) { //若使用者輸入無效，就會跳到這裡
+            alert(ex); //告知使用者錯誤為何
+        }
+
+        //模擬for
+        var count = 0;
+        while (count < 10) {
+            try {
+                console.log(count);
+            } finally {
+                count++;
+            }
+        }
+    </script>
+</body>
+
+</html>

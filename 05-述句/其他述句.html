@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <input name="name">
+        <input name="address">
+        <input name="email">
+    </form>
+    <script>
+        //with
+        document.forms[0].address.value
+
+        //用with將物件加入範疇鏈，不用重複寫
+        with(document.forms[0]) {
+            //在此直接存取表單元素。例如:
+            name.value = "";
+            address.value = "";
+            email.value = "";
+        }
+
+        //避免使用with的寫法
+        var f = document.forms[0];
+        f.name.value = "";
+        f.address.value = "";
+        f.email.value = "";
+
+        //debugger : 設中斷點，執行中斷。
+        //每當有不帶引數呼叫f1()，執行會中斷，
+        //然後你就可以用除錯器來檢視呼叫堆疊
+        //找出這個不正確的呼叫從哪裡來。
+        function f1(o) {
+            if (o === undefined) debugger; //為了除錯而暫時存在的一行
+            //其他的函式程式碼
+        }
+        f1()
+
+        //use strict
+        var hasStrictMode = (function () {
+            "use strict";
+            return this == undefined
+        }())
+        console.log(hasStrictMode)
+    </script>
+
+</body>
+
+</html>
