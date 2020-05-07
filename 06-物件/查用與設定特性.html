@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var book = {
+            "main title": 'JavaScript', //包含空格的特性名稱
+            "sub-title": "The Definitive Guide", //或是包含連字號，這類名稱使用字串字面值
+            "for": "all audiences", //for是個保留字，所以要加上引號
+            author: { //這個特性的值本身是個物件
+                firstname: "David", //請注意這些
+                surname: "Flanagan" //特性名稱都沒加上引號。
+            }
+        }
+        //要獲取特性值 : 點(.)或中括號([])運算子。
+        var author = book.author; //取得book的author特性
+        var name = author.surname; //取得author的surname特性
+        var title = book["main title"]; //取得book的main title特性
+
+        //創建或設定特性
+        book.edition = 6; //為book創建一個edtion特性
+        book["main title"] = "ECMAScript"; //設定main title特性
+
+        //使用陣列記號配合字串運算式存取物件的特性。 
+        //串接customer物件的address0、address1、address2與address3特性。
+        var addr = "";
+        var customer = {
+            address0: "aa",
+            address1: "bb",
+            address2: "cc",
+            address3: "dd",
+        }
+        for (i = 0; i < 4; i++)
+            addr += customer["address" + i] + '\n';
+
+        //使用者在執行期間輸入特性名稱:
+        //寫程式時並不知道特性名稱，沒辦法使用(.)運算子來存取portfolio物件的特性
+        //然而可以使用[]運算子，因為它使用字串值(字串值是動態的，在執行期間可以改變)
+        //而非識別字(識別字是靜態的，必須寫死在程式中)來指定特性。
+        function addstock(portfolio, stockname, shares) {
+            portfolio[stockname] = shares
+        }
+
+        //for/in 並用關聯式陣列的寫法:
+        //計算投資組合的總值。
+        function getvalue(portfolio) {
+            var total = 0.0;
+            for (stock in portfolio) { //對投資組合中的每支股票:
+                var shares = portfolio[stock]; //取得股份數量
+                var price = getquote(stock); //查詢股價
+                total += shares * price; //將這支股票的價值加至總值
+            }
+            return total; //回傳總值。
+        }
+
+        //繼承
+        function inherit(p) {
+            if (p == null) throw TypeError(); //p必須是個非null物件
+            if (Object.create) //如果Object.create()有定義
+                return Object.create(p) //那就直接用它。
+            var t = typeof p; //不然就做更多型別檢查     
+            if (t !== "object" && t !== "function") throw TypeError();
+
+            function f() {}; //定義一個建構函式空殼
+            f.prototype = p //將prototype特性設為p
+            return new f(); //使用f()創建一個p的繼承者
+        }
+
+        var o = {}; //o 從Object.prototype繼承了物件方法
+        o.x = 1; //並有一個自有特性x
+        var p = inherit(o); //p繼承特性自o與Object.prototype
+        p.y = 2; //自有特性y。
+        var q = inherit(p); //q繼承自p、o與Object.prototype
+        q.z = 3; //自有特性z        
+        console.log(q.toString()) //toString是從Object.prototype繼承而來
+        console.log(q.x + q.y) //=>3:x與y繼承自o與p
+
+        //物件繼承的行為:指定值給繼承的特性，會新創特性覆蓋繼承的特性，且不會修改到原型鏈上的物件。
+        var unitcircle = {
+            r: 1
+        } //要繼承的物件
+        var c = inherit(unitcircle) //c繼承特性r
+        c.x = 1;
+        c.y = 1; //c定義兩個自有特性
+        c.r = 2; //c覆寫它繼承的特性
+        console.log(unitcircle.r) //=>1:沒有影響到原型物件
+    </script>
+</body>
+
+</html>
