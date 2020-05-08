@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //為特定物件指定名稱的特性獲取特性描述子
+        console.log(Object.getOwnPropertyDescriptor({
+            x: 1
+        }, "x")) //回傳{value:1, writable:true, enumerable:true, configurable:true}
+
+        //現在查用上面定義的random物件之octet特性。
+        var random = {
+            get octet() {
+                return Math.floor(Math.random() * 256);
+            },
+            get uint16() {
+                return Math.floor(Math.random() * 65536);
+            },
+            get int16() {
+                return Math.floor(Math.random() * 65536) - 32678;
+            }
+        }
+        console.log(Object.getOwnPropertyDescriptor(random,
+            "octet")) //回傳{get:func, set:undefined, enumerable:true, configurable:true}
+
+        //對繼承特性或不存在的特性都回傳undefined。
+        console.log(Object.getOwnPropertyDescriptor({}, "x")); //undefined，沒有這個特性
+        console.log(Object.getOwnPropertyDescriptor({}, "toString")); //undefined，繼承而來的
+
+        //設定特性的屬性 : Object.defineProperty()
+        var o = {}; //一開始完全沒有特性
+        //加入一個不可列舉的資料特性x，設值為1
+        Object.defineProperty(o, "x", {
+            value: 1,
+            writable: true,
+            enumerable: false,
+            configurable: true
+        })
+
+        //檢查特性是否存在，而且不可列舉
+        console.log(o.x) //=>1
+        console.log(Object.keys(o)) //=>[]
+
+        //現在修改特性x，讓它變唯讀
+        Object.defineProperty(o, "x", {
+            writable: false
+        });
+
+        //嘗試改變特性的值
+        o.x = 2; //無聲失敗或在stric模式下執出TypeError
+        console.log(o.x) //=>1
+
+        //該特性仍是可配置的(configurable)，所以我們可以像這樣改變它的值
+        Object.defineProperty(o, "x", {
+            value: 2
+        })
+        console.log(o.x) //=>2
+
+        //現在把x從資料特性改為accessor特性
+        Object.defineProperty(o, "x", {
+            get: function () {
+                return 0;
+            }
+        })
+        console.log(o.x) //=>0
+
+        //一次修改或創建多個特性 Object.defineProperties()
+        //第一個引數是要修改的物件，第二個引數也是物件，包含要修改的特性名稱與特性描述子
+        var p = Object.defineProperties({}, {
+            x: {
+                value: 1,
+                writable: true,
+                enumerable: true,
+                configurable: true
+            },
+            y: {
+                value: 1,
+                writable: true,
+                enumerable: true,
+                configurable: true
+            },
+            r: {
+                get: function () {
+                    return Math.sqrt(this.x * this.x + this.y * this.y)
+                },
+                enumerable: true,
+                configurable: true
+            },
+        })
+        console.log(p.x, p.y, p.r)
+
+        /*
+         * 新增不可列舉extend()方法至Object.prototype。
+         * 這個方法會擴充它所作用的物件，
+         * 把傳入物件所有的特性複製進去。全部的特性屬性都會被複製，
+         * 不僅有特性值。所有引數物件的自有特性
+         * (甚至是不可列舉)都會被複製
+         * 除非在目標物件中已存有同名特性
+         */
+        Object.defineProperty(Object.prototype, "extend", //定義Object.prototype.extend
+            {
+                writable: true,
+                enumerable: false, //使它不可列舉
+                configurable: true,
+                value: function (o) { //它的值為此函式
+                    //取得所有特性，就算是不可列舉的也一樣
+                    var names = Object.getOwnPropertyNames(o);
+                    //使用迴圈逐一處理
+                    for (var i = 0; i < names.length; i++) {
+                        //跳過在this中已經存在的特性
+                        if (names[i] in this) continue;
+                        //取得o的特性描述
+                        var desc = Object.getOwnPropertyDescriptor(o, names[i]);
+                        //用它在this創建新特性
+                        Object.defineProperty(this, names[i], desc)
+                    }
+                }
+            })
+        var o1 = {
+            x: 1,
+            y: 2
+        }
+        var o2 = {
+            z: 3,
+            w: 4
+        }
+        o1.extend(o2)
+        console.log(o1)
+    </script>
+</body>
+
+</html>

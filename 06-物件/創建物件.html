@@ -36,8 +36,8 @@
         var d = new Date(); //創建代表目前時間的Date物件
         var r = new RegExp("js"); //創建用來範式比對的RegExp物件
 
-        //Object.create() : 第一個引數為該物件的原型
-        //使用任意的原型創建新物件。
+        //Object.create() : 第一個引數為該物件的原型物件
+        //可以使用任意的原型物件創建新物件。
         var o1 = Object.create({
             x: 1,
             y: 2
@@ -77,8 +77,13 @@
         var o = {
             x: "don't change this value"
         };
+        var library_function = function () {
+
+        }
         //函式修改的只是繼承者，而非原本的物件。
         library_function(inherit(o)) //防止對o的意外修改
+
+        
     </script>
 </body>
 

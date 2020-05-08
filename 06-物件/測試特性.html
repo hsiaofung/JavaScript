@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //in 運算子 : 左邊是特性名稱(字串)， 右邊是物件。
+        //如果該物件有指定名稱的自有或繼承特性，回傳true
+        var o = {
+            x: 1
+        }
+        console.log("x" in o); //true: o有個自有特性"x"
+        console.log("y" in o); //false: o沒有特性"y"
+        console.log("toString" in o); //true: o繼承toString特性
+
+        //hasOwnProperty() : 測試該物件有指定名稱的自有特性，如果是繼承特性，回傳false。 
+        console.log(o.hasOwnProperty("x")) //true: o有個自有特性"x"
+        console.log(o.hasOwnProperty("y")) //false: o沒有特性"y"
+        console.log(o.hasOwnProperty("toString")) //false: toString是繼承特性
+
+        //propertyIsEnumerable():
+        //只有在特性為自有特性，且enumerable屬性為true時，才回傳true  
+        //普通程式碼創建的特性都是可列舉的。
+        function inherit(p) {
+            if (p == null) throw TypeError(); //p必須是個非null物件
+            if (Object.create) //如果Object.create()有定義
+                return Object.create(p) //那就直接用它。
+            var t = typeof p; //不然就做更多型別檢查     
+            if (t !== "object" && t !== "function") throw TypeError();
+
+            function f() {}; //定義一個建構函式空殼
+            f.prototype = p //將prototype特性設為p
+            return new f(); //使用f()創建一個p的繼承者
+        }
+
+        var o = inherit({
+            y: 2
+        })
+
+        o.x = 1;
+        console.log(o.propertyIsEnumerable('x')); //true: o有個自有的可列舉特性x
+        console.log(o.propertyIsEnumerable('y')); //false: y是繼承而來，並非自有
+        console.log(Object.prototype.propertyIsEnumerable('toString')); //false: 不是可列舉
+
+        //查用特性 : 使用!==來確定被非undefined就足夠了。
+        //!==可以辨別undefined與null
+        var o = {
+            x: 1
+        }
+        console.log(o.x !== undefined); //true: o有特性x
+        console.log(o.y !== undefined); //false: o沒有特性y
+        console.log(o.toString !== undefined); //true: o繼承toString特性
+
+        //in可以分辨"不存在的特性"與"存在但設為undefined"的特性。
+        var o = {
+            x: undefined
+        } //特性被明確地設為undefined
+        console.log(o.x !== undefined); //false: 特性存在，但值為undefined
+        console.log(o.y !== undefined); //false: 特性本身不存在
+        console.log("x" in o); //true: 特性存在
+        console.log("y" in o); //false: 特性不存在
+        delete o.x; //刪除特性x
+        console.log("x" in o); //false: 它已不復存
+
+        //如果o有值不為null或undefined的特性x，將其值加倍。
+        if (o.x != null) o.x *= 2;
+
+        //如果x是undefined、null、false、""、0或NaN，就不要執行它。
+        if (o.x) o.x *= 2;
+    </script>
+</body>
+
+</html>

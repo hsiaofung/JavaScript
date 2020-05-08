@@ -90,6 +90,23 @@
         c.y = 1; //c定義兩個自有特性
         c.r = 2; //c覆寫它繼承的特性
         console.log(unitcircle.r) //=>1:沒有影響到原型物件
+
+        //特性存取錯誤
+        console.log(book.subtitle); //=>undefined:特性不存在
+
+        //讀取不存在的物件 : 產生TypeError例外。undefined沒有length特性。
+        var len = book.subtitle.length;
+
+        //防止這種例外發生
+        //較沉長但明確的技巧
+        var len = undefined;
+        if (book) {
+            if (book.subtitle) len = book.subtitle.length
+        }
+
+        //簡潔慣用的技巧，取得的內容會是subtitle length或undefined
+        var len = book && book.subtitle && book.subtitle.length
+        console.log(len)
     </script>
 </body>
 

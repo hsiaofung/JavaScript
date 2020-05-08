@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //delete
+        var book = {
+            "main title": 'JavaScript', //包含空格的特性名稱
+            "sub-title": "The Definitive Guide", //或是包含連字號，這類名稱使用字串字面值
+            "for": "all audiences", //for是個保留字，所以要加上引號
+            author: { //這個特性的值本身是個物件
+                firstname: "David", //請注意這些
+                surname: "Flanagan" //特性名稱都沒加上引號。
+            }
+        }
+        delete book.author; //book物件現在沒有author特性
+        delete book["main title"] //現在也沒有"main title"
+
+        //特性刪除失敗
+        o = {
+            x: 1
+        }; //o有自有特性x及繼承特性toString
+        delete o.x; //刪除x，回傳true
+        delete o.x; //什麼都不做(x不存在)，回傳true
+        delete o.toString; //什麼都不做(toString不是自有特性)，回傳true
+        delete 1; //沒有意義，但也是回傳true
+
+        //delete不會刪除configurable屬性為false的特性。
+        //configurable屬性 :內建物件某些特性，變數宣告及函式定義創建的全域物件特性。
+        //strict 模式: 刪除nonconfigurable特性會造成TypeError
+        //非strict 模式: delete會估算為false。
+        console.log(delete Object.prototype); //=>false: 不能刪除; 特性為non-configurable
+        var x = 1; //宣告一個全域變數
+        delete this.x; //無法刪除此特性
+        function f() {} //宣告一個全域函式
+        delete this.f; //同樣無法刪除此特性
+
+        //在非strict模式下刪除全域物件的configurable特性，可以省略對全域物件的參考。
+        this.x = 1; //創建一個configurable全域特性(不用var)
+        delete x; //將之刪除
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var o = { //三個可列舉的自有特性
+            x: 1,
+            y: 2,
+            z: 3
+        }
+        o.propertyIsEnumerable("toString") //=>false: 不可列舉
+        for (p in o) //對每個特性執行迴圈
+            console.log(p); //印出x、y、z，不會印出toString
+
+        //有些工具程式會新增特性到Object.prototype
+        //所以這些特性會被繼承。
+        //我們沒有辦法讓這些新增的繼承特性變成不可列舉
+        //但可用下列方法過濾特性。
+        for (p in o) {
+            if (!o.hasOwnProperty(p)) continue; //跳過繼承特性
+        }
+
+        for (p in o) {
+            if (typeof o[p] === "function") continue; //跳過方法
+        }
+
+        //列舉特性的物件工具函式
+        /*
+         * 複製p的可列舉特性至o，並回傳o。
+         * 如果o與p有同名的特性，o的特性會被覆蓋(overwritten)
+         * 這個函式不處理getters與setters，也不複製屬性
+         */
+        function extend(o, p) {
+            for (prop in p) { //對p中所有的特性
+                o[prop] = p[prop]; //將特性加至o
+            }
+            return o;
+        }
+        /*
+         * 複製p的可列舉特性至o，並回傳o。
+         * 如果o與p有同名的特性，o的特性維持不變。
+         * 這個函式不處理getters與setters，也不複製屬性
+         */
+        function merge(o, p) {
+            for (prop in p) { //對p中所有的特性
+                if (o.hasOwnProperty[prop]) continue; //除了o原有的特性之外。
+                o[prop] = p[prop]; //將特性加至o
+            }
+            return o;
+        }
+        /*         
+         * 移除o的特性，除了p中同名的特性之外。
+         * 回傳o。
+         */
+        function restrict(o, p) {
+            //for/in 述句
+            for (prop in o) { //For all props in o
+                //in 運算子
+                if (!(prop in p)) delete o[prop]; //如果不在p中就刪除               
+            }
+            return o;
+        }
+        /*         
+         * 刪除o中每一個與p中同名的特性。
+         * 回傳o。
+         */
+        function subtract(o, p) {
+            for (prop in p) { //對p中所有的特性
+                delete o[prop]; //從o中刪除(刪除一個不存在的特性是無害。)               
+            }
+            return o;
+        }
+        /*         
+         * 回傳一個新物件，它持有o與p兩者的特性。
+         * 如果o與p有同名特性，就用p的特性值。
+         */
+        function union(o, p) {
+            return extend(extend({}, o), p);
+        }
+        /*         
+         * 回傳一個新物件，只有同時也出現在p中的o特性才會放到這個物件中
+         * 這有點類似o與p的交集
+         * 但是p的特性值會被捨棄
+         */
+        function intersection(o, p) {
+            return restrict(extend({}, o), p);
+        }
+        /*         
+         * 回傳一個陣列，內有o所有的可列舉自有特性名稱
+         */
+        function keys(o) {
+            if (typeof o !== "object") throw TypeError(); //引數一定要是物件
+            var result = []; //要回傳的陣列
+            for (var props in o) { //對所有可列舉特性
+                if (o.hasOwnProperty(prop)) //如果它是自有特性
+                    result.push(prop) //將之加入陣列
+            }
+            return result; //回傳陣列
+        }
+
+        o = {
+            x: 1,
+            y: 2
+        }
+        p = {
+            x: 1,
+            z: 3,
+            w: 4
+        }
+        console.log(restrict(extend({}, o), p)) //=> {x:1}: 使用{}不會修改到原來的物件。
+        console.log(o)
+        console.log(restrict(o, p)) //=> {x:1}
+        console.log(o)
+
+        //Object.keys() : 回傳可列舉自有特性名稱陣列。
+        //Object.getOwnPropertyNames(): 回傳全部自有特性，包括可列舉，不可列舉。
+    </script>
+</body>
+
+</html>

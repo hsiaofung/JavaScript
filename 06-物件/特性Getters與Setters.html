@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var value = 5;
+        var o = {
+            //一個普通的資料特性
+            data_prop: value,
+
+            //一個accessor特性定義為一對函式
+            get accessor_prop() {
+                /*這裡是函是主體*/
+            },
+            set accessor_prop(value) {
+                /*這裡是函是主體*/
+            }
+        };
+
+        //為同一組資料提供兩種表示方式 : Cartesian座標與極座標
+        var p = {
+            //x與y是一般的可讀寫資料特性
+            x: 1.0,
+            y: 1.0,
+            //r 是具有getter與setter的可讀寫accessor特性
+            //別忘了在accessor方法之後放上逗號。
+            get r() {
+                return Math.sqrt(this.x * this.x + this.y * this.y)
+            },
+            set r(newvalue) {
+                var oldvalue = Math.sqrt(this.x * this.x + this.y * this.y);
+                var ratio = newvalue / oldvalue;
+                this.x *= ratio;
+                this.y *= ratio;
+            },
+            //theta是只有getter的唯讀accessor特性。
+            get theta() {
+                return Math.atan2(this.y, this.x);
+            }
+        }
+
+        //Accessor 特性可以被繼承
+        function inherit(p) {
+            if (p == null) throw TypeError(); //p必須是個非null物件
+            if (Object.create) //如果Object.create()有定義
+                return Object.create(p) //那就直接用它。
+            var t = typeof p; //不然就做更多型別檢查     
+            if (t !== "object" && t !== "function") throw TypeError();
+
+            function f() {}; //定義一個建構函式空殼
+            f.prototype = p //將prototype特性設為p
+            return new f(); //使用f()創建一個p的繼承者
+        }
+
+        var q = inherit(p) //創建一個繼承getter與setter的新物件
+        q.x = 1; //創建q自己的資料特性
+        q.y = 1;
+        console.log(q.r) //並使用繼承而來的accessor特性
+        console.log(q.theta)
+
+        //每次讀取時，回傳不同值: 這個物件產生嚴格遞增的序號
+        //並對寫入做檢查。
+        var serialnum = {
+            //這個資料特性存有下一個序號。
+            //特性名稱中的$暗示這是個私有(private)特性。
+            $n: 0,
+
+            //回傳目前的值，並遞增之
+            get next() {
+                return this.$n++;
+            },
+
+            //設定新值給n，但只在它比目前值大時才這樣做
+            set next(n) {
+                if (n >= this.$n) this.$n = n;
+                else throw "serial number can only be set to a large value";
+            }
+        };
+
+        //
+        //這個物件有個會回傳隨機數字(random number)的accessor特性
+        //例如: 運算式"random.octet"每次估算時就會產生
+        //一個介於0與255之間的隨機數字。
+        var random = {
+            get octet() {
+                return Math.floor(Math.random() * 256);
+            },
+            get uint16() {
+                return Math.floor(Math.random() * 65536);
+            },
+            get int16() {
+                return Math.floor(Math.random() * 65536) - 32678;
+            }
+        }
+    </script>
+</body>
+
+</html>
