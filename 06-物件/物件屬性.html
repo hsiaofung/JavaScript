@@ -1,13 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <script>
-        
+        //isPrototypeOf() : 判斷一個物件是否是另一個物件的prototype
+        var p = {
+            x: 1
+        } //定義一個prototype物件
+        var o = Object.create(p) //使用那個prototype創建一個物件。
+        console.log(p.isPrototypeOf(o)); //=> true : o 繼承自p
+        console.log(Object.prototype.isPrototypeOf(p)); //=>true: p繼承自Object.prototype
+
+        //class屬性
+        //classof() :　回傳任何傳入物件的類別
+        function classof(o) {
+            if (o === null) return "Null";
+            if (o === undefined) return "Undefined";
+            return Object.prototype.toString.call(o).slice(8, -1)
+        }
+        console.log(classof({
+            x: 1
+        }))
+        var now = new Date();
+        console.log(classof(now))
+
+        console.log(classof(null)) //=>Null
+        console.log(classof(1)) //=>Number
+        console.log(classof("")) //=>String
+        console.log(classof(false)) //=>Boolean
+        console.log(classof({})) //=>Object
+        console.log(classof(/./)) //=>Regexp
+        console.log(classof(new Date())) //=>Date
+        console.log(classof(window)) //=>Windoe(一個客戶端的host物件)
+        function f() {} //定義自製的建構式
+        console.log(classof(new f())) //=>Object
+
+        //extensible屬性
+        //創建一個蜜封物件，它有被凍結的prototype以及一個不可列舉的特性
+        var o = Object.seal(Object.create(Object.freeze({
+            x: 1
+        }), {
+            y: {
+                value: 2,
+                writable: true
+            }
+        }))
     </script>
 </body>
+
 </html>

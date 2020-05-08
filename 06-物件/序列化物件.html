@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        o = {
+            x: 1,
+            y: {
+                z: [false, null,
+                    ""
+                ]
+            }
+        }; //定義一個測試物件
+        s = JSON.stringify(o) //s是{x:1, y:{z:[false,null,""]}}
+        p = JSON.parse(s) //p是o的深層複製，把序列化復原
+        console.log(s)
+        console.log(p)
+    </script>
+</body>
+
+</html>
