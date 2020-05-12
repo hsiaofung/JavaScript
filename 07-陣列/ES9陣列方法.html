@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //ES5 陣列方法 : 定義9個新的陣列方法用來迭代、對映、過濾、測試、約檢，以及搜尋陣列。
+      //這些方法的第一個引數大多是函式，它們對陣列中的每個元素都調用一次這個函式。
+      //如果陣列是稀疏，你傳入的函式並不會為不存在的元素所調用。
+      //你提供的函式會用三個引數來調用:陣列元素值、該陣列元素的索引。以及陣列本身。
+      //所有的ES5陣列方法都不會修改調用它們的陣列。
+
+      //forEach: 逐一查用陣列元素，並對每個元素調用你指定的函式。
+      var data = [1, 2, 3, 4, 5]; //要計算總合的陣列
+      //計算陣列元素的總和
+      var sum = 0; //從0開始
+      data.forEach(function (value) {
+        //將每個值加到sum
+        sum += value;
+      });
+      console.log(sum); //=>15
+
+      //現在遞增每個陣列元素
+      data.forEach(function (v, i, a) {
+        a[i] = v + 1;
+      });
+      console.log(data); //=>[2,3,4,5,6]
+
+      //forEach沒有提供方式讓你提前終止迭代
+      //你必須擲出例外，並把forEach的呼叫放在try區塊中。
+      function foreach(a, f, t) {
+        try {
+          a.forEach(f, t);
+        } catch (e) {
+          if (e === foreach.break) return;
+          else throw e;
+        }
+      }
+      foreach.break = new Error("StopIteration");
+      var sum1 = 0;
+      foreach(data, function (value) {
+        if (sum1 > 5) throw foreach.break;
+        sum1 += value;
+      });
+      console.log(sum1); //=>9，提早結束
+
+      //map() : 會把調用它的陣列中每一個元素逐一傳給你指定的函式，然後傳回一個由函式回傳值所構成的陣列:
+      //map 回傳一個新陣列，它不會修改調用它的陣列。
+      //如果調用map的陣列是稀疏，回傳的陣列也會以同樣的方式稀疏:它會有同樣的長度，以及同樣的缺口。
+      a = [1, 2, 3];
+      b = a.map(function (x) {
+        return x * x; //b為[1,4,9]
+      });
+
+      //filter() : 回傳的陣列內含調用它的陣列之元素子集，傳給它的函式應該是個回傳true或false的函式。
+      //若回傳值為true，那麼該元素會被加至回傳陣列之中。
+      a = [5, 4, 3, 2, 1];
+      smallvalues = a.filter(function (x) {
+        return x < 3;
+      }); //[2,1]
+      console.log(smallvalues);
+      everyother = a.filter(function (x, i) {
+        return i % 2 == 0;
+      });
+      console.log(everyother); //=>[5,3,1]
+
+      a = [1, 2, , 3, 4, 5, , 6, 7];
+      sparse = a;
+
+      //關上稀疏陣列的缺口
+      var dense = sparse.filter(function () {
+        return true;
+      });
+      console.log(dense);
+      console.log(a);
+
+      //關閉缺口並且移除具有undefined或null值的元素
+      a = a.filter(function (x) {
+        return x !== undefined && x != null;
+      });
+      console.log(a);
+
+      //every 與 some : 將你指定的函式套用至陣列元素，然後回傳true或false
+      //every : 它只在對所有陣列元素你的函式都回傳true時，才會回傳true。
+      a = [1, 2, 3, 4, 5];
+      a.every(function (x) {
+        return x < 10;
+      }); //=>true: 所有的值都<10.
+      a.every(function (x) {
+        return x % 2 === 0;
+      }); //=>false: 不是所有的值都是偶數
+
+      //some : 只要陣列中至少有一個元素套用函式後回傳true，some就會回傳true
+      a.some(function (x) {
+        return x % 2 === 0;
+      }); //=>true: a中有偶數。
+      a.some(isNaN); //=>false: a 中沒有非數字
+
+      //reduce、reduceRight : 依據你指定的函式，結合陣列的元素，產生一個值。
+      //reduce取兩個引數，第一個是執行約簡動作的函式，這個reduction函式的工作是用某種方式把兩個值結合或簡化成單一值，並回傳約簡後的值。
+      //reduce的第二個引數是要傳給該函式的初始值。
+
+      var sum = a.reduce(function (x, y) {
+        return x + y;
+      }, 0); //所有值的總和，並指定初始值為0
+      console.log(sum);
+      var product = a.reduce(function (x, y) {
+        return x * y;
+      }, 1); //值的乘積，並指定初始值為1
+      console.log(product);
+
+      //不帶初始值調用reduce()時，它會把陣列的第一個元素當作初始值。
+      //這表示第一次對reduction函式的呼叫會用陣列的第一個與第二元素作為函式的第一與第二引數。
+      var max = a.reduce(function (x, y) {
+        return x > y ? x : y;
+      }); //最大值
+      console.log(max);
+
+      //reduceRight: 就像reduce。只不過順序是從最高索引至最低索引，而非從最低至最高。
+      var a = [2, 3, 4];
+      //計算2^(3^4)。指數運算具有從右到左的優先序。
+      var big = a.reduceRight(function (accumulator, value) {
+        return Math.pow(value, accumulator);
+      });
+
+      //reduce不僅用於數學計算 : 計算兩個物件的聯集。
+      /*
+       * 複製p的可列舉特性至o，並回傳o。
+       * 如果o與p有同名的特性，o的特性會被覆蓋(overwritten)
+       * 這個函式不處理getters與setters，也不複製屬性
+       */
+      function extend(o, p) {
+        for (prop in p) {
+          //對p中所有的特性
+          o[prop] = p[prop]; //將特性加至o
+        }
+        return o;
+      }
+      /*
+       * 回傳一個新物件，它持有o與p兩者的特性。
+       * 如果o與p有同名特性，就用p的特性值。
+       */
+      function union(o, p) {
+        return extend(extend({}, o), p);
+      }
+      var objects = [{ x: 1 }, { y: 2 }, { z: 3 }];
+      var merged = objects.reduce(union); //=>{x:1,y:2,z:3}
+      console.log(merged);
+
+      //
+      var objects = [
+        { x: 1, a: 1 },
+        { y: 2, a: 2 },
+        { z: 3, a: 3 },
+      ];
+      var leftunion = objects.reduce(union);
+      var rightunion = objects.reduceRight(union); //{x:1, y:2, z:3, a:3}
+      console.log(leftunion); //{x:1, a:3, y:2, z:3}
+      console.log(rightunion); //{z:3, a:1, y:2,x:1}
+
+      //indexOf與lastIndexOf : 會根據指定的值在陣列中搜尋元素，如果有找到，就回傳第一個具有此值的元素索引。
+      //如果沒有找到，回傳-1。indexOf從陣列的開頭搜尋至結尾。而lastIndexOf則是從陣列結尾搜尋至開頭。
+      //indexOf的第二個引數是選擇性的:指定要從哪個陣列索引位置開始搜尋。
+      a = [0, 1, 2, 1, 0];
+      a.indexOf(1); //=>1:a[1]是1
+      a.lastIndexOf(1); //=>3:a[3]是1
+      a.indexOf(3); //=>-1:沒有元素具有值3
+
+      //在陣列a中尋找所有值x出現的位置。
+      //回傳所有符合的索引
+      function findall(a, x) {
+        var results = [], //這是要回傳的索引陣列
+          len = a.length, //要搜尋的陣列長度
+          pos = 0; //開始搜尋的位置
+        while (pos < len) {
+          //如果還有元素需要搜尋
+          pos = a.indexOf(x, pos); //搜尋
+          if (pos === -1) break; //如果沒找到，就提早結束
+          results.push(pos); //否則，將索引存在陣列中
+          pos = pos + 1; //下次搜尋從下個元素開始
+        }
+        return results; //回傳陣列索引
+      }
+      console.log(findall(a, 1).toString()); //=>1,3
+    </script>
+  </body>
+</html>

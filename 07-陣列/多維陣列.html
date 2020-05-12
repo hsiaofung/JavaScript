@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //創建多維陣列
+      var table = new Array(10); //這個表有10列(rows)
+      for (var i = 0; i < table.length; i++) table[i] = new Array(10); //每一列有10欄(columns)
+      //初始化這個陣列
+      for (var row = 0; row < table.length; row++) {
+        for (var col = 0; col < table[row].length; col++) {
+          table[row][col] = row * col;
+        }
+      }
+      //使用這個多維陣列計算5*7
+      var product = table[5][7]; //35
+      console.log(product);
+    </script>
+  </body>
+</html>
