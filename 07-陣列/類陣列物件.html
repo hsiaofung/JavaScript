@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var a = {}; //創建一個普通的空物件
+
+      //加上特性使它成為類陣列物件
+      var i = 0;
+      while (i < 10) {
+        a[i] = i * i;
+        i++;
+      }
+      a.length = i;
+      console.log(a);
+      console.log(a.length);
+
+      //現在把它當作真正的陣列逐一查用。
+      var total = 0;
+      for (var j = 0; j < a.length; j++) total += a[j];
+      console.log(total);
+
+      //測定物件的行為是否類於陣列:
+      //判斷o是否為類陣列物件。
+      //字串與函式有數值length性，但會被
+      //typeof測試排除在外。在客戶端JavaScript，DOM的文字節點(text nodes)
+      //具有數值的length特性，可能需要使用
+      //額外的o.nodeType !=3 測試來排除之。
+      function isArrayLike(o) {
+        if (
+          o && //o不為null、undefined等。
+          typeof o === "object" && //o是物件
+          isFinite(o.length) && //o.length為有限數字
+          o.length >= 0 && //o.length是非負的
+          o.length === Math.floor(o.length) && //o.length是個整數
+          o.length < 4294967296 //o.length < 2^32
+        )
+          return true;
+        //則o為類陣列物件
+        else return false; //否則就不是
+      }
+      console.log(isArrayLike(a));
+
+      //類陣列物件調用陣列方法 : Function.call
+      var a = { "0": "a", "1": "b", "2": "c", length: 3 }; //一個類陣列物件
+      console.log(Array.prototype.join.call(a, "+")); //=>"a+b+c"
+      console.log(Array.prototype.slice.call(a, 0)); //=>["a","b","c"]:真正的陣列複製
+      console.log(
+        Array.prototype.map.call(a, function (x) {
+          return x.toUpperCase();
+        })
+      ); //=>["A","B","C"]
+
+      //使用Array.join、Array.slice、Array.map方法: 使用前先判斷瀏覽器是否支援
+      Array.join =
+        Array.join ||
+        function (a, sep) {
+          return Array.prototype.join.call(a, sep);
+        };
+      Array.slice =
+        Array.slice ||
+        function (a, from, to) {
+          return Array.prototype.slice.call(a, from, to);
+        };
+      Array.map =
+        Array.map ||
+        function (a, f, thisArg) {
+          return Array.prototype.map.call(a, f, thisArg);
+        };
+      console.log(Array.join(a, "+"));
+      console.log(Array.slice(a, 0));
+      console.log(
+        Array.map(a, function (x) {
+          return x.toUpperCase();
+        })
+      );
+    </script>
+  </body>
+</html>

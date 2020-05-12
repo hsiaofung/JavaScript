@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var s = "test";
+      console.log(s.charAt(0)); //=>"t"
+      console.log(s[1]); //=>"e"
+
+      s = "JavaScript";
+      console.log(Array.prototype.join.call(s, " ")); //=>"J a v a S c r i p t"
+      console.log(
+        Array.prototype.filter
+          .call(s, function (x) {
+            //過濾字串的字元
+            return x.match(/[^aeiou]/); //指匹配(match)非母音的字母
+          })
+          .join("") //=>"JvScrpt"
+      ); //過濾字串的字元
+    </script>
+  </body>
+</html>

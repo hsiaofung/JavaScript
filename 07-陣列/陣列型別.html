@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //給定一個未知物件，判斷它是否為陣列。
+      //ES5的寫法:
+      console.log(Array.isArray([])); //=>true
+      console.log(Array.isArray({})); //=>false
+
+      //instanceof
+      console.log([] instanceof Array); //=>true
+      console.log({} instanceof Array); //=>false
+
+      //ES3的寫法
+      var isArray =
+        Function.isArray ||
+        function (o) {
+          return (
+            typeof o === "object" &&
+            Object.prototype.toString.call(o) === "[object Array]"
+          );
+        };
+    </script>
+  </body>
+</html>
