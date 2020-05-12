@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      console.log([].length); //=>0:陣列沒有元素
+      console.log(["a", "b", "c"].length); //=>3:最高的索引為2，length為3
+
+      //設定長度n，任何大於n的元素都會被刪除。
+      a = [1, 2, 3, 4, 5]; //創建一個五元素陣列。
+      a.length = 3; //a 現在是[1,2,3]。
+      a.length = 0; //刪除所有元素。a為[]。
+      a.length = 5; //長度為5，但沒有元素，就像new Array(5)
+
+      //
+      a = [1, 2, 3]; //創建一個三元素陣列
+      Object.defineProperty(a, "length", { writable: false }); //使長度特性變成唯讀
+      a.length = 0;
+      console.log(a.length); //=>3 : a不變
+    </script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //建立稀疏陣列
+      a = new Array(5); //沒有元素，但a.length是5。
+      a = []; //創建沒有元素的陣列，length = 0。
+      a[1000] = 0; //這個指定新增一個元素，但使length變為1001。
+      console.log(a.length); //=>1001
+
+      //被省略的元素不會存在。
+      var a1 = [,]; //這個陣列沒有元素，但length為1。
+      var a2 = [undefined]; //這個陣列有一個undefined元素
+      console.log(0 in a1); //=>false: a1沒有索引為0的元素
+      console.log(0 in a2); //=>true: a2在索引0有值為undefined的元素。
+    </script>
+  </body>
+</html>

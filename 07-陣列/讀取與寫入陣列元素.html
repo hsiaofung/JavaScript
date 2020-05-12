@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //使用[]讀取與寫入陣列元素
+      var a = ["world"]; //創建具有單一元素的陣列
+      var value = a[0]; //讀取元素0
+      a[1] = 3.14; //寫入元素1
+      i = 2;
+      a[i] = 3; //寫入元素2
+      a[i + 1] = "hello"; //寫入元素3
+      a[a[i]] = a[0]; //讀取元素0與2，寫入元素3
+
+      //物件 : 索引把數字轉為字串，所有的索引都是特性名稱
+      o = {}; //創建一個物件
+      o[1] = "one"; //使用一個整數為它索引
+
+      a[-1.23] = true; //如此創建一個名為"-1.23"的特性。
+      a["1000"] = 0; //這是陣列第1001個元素
+      console.log(a.length); //=>1001
+      a[1.0]; //陣列索引1，等同於a[1]
+      console.log(a[1.0]); //=>3.14
+
+      //當你查用物件不存在的特性，不會發生錯誤，僅會得到undefined，對陣列來說也是一樣
+      a = [true, false]; //這個陣列在索引0與1處有元素
+      console.log(a[2]); //=> undefined。這個索引沒有元素
+      console.log(a[-1]); //=>undefined。沒有特性是這個名稱
+    </script>
+  </body>
+</html>

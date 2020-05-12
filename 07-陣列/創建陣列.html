@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //陣列字面值
+      var empty = []; //沒有元素的陣列
+      var primes = [2, 3, 5, 7, 11]; //有5個數值元素的陣列
+      var misc = [1.1, true, "a"]; //3個不同型別的元素，加上尾隨的逗號
+
+      //陣列字面值中的數不一定是常數，也可以是任意的運算式
+      var base = 1024;
+      var table = [base, base + 1, base + 2, base + 3];
+
+      //陣列字面值可以包含物件字面值或其他陣列字面值
+      var b = [
+        [1, { x: 1, y: 2 }],
+        [2, { x: 3, y: 4 }],
+      ];
+
+      //稀疏矩陣
+      var count = [1, , 3]; //元素位於索引0與2。count[1]=>undefined
+      var undefs = [, ,]; //陣列沒有元素，但長度為2。(陣列字面值允許尾隨逗號，所以長度為2，不是3)
+      console.log(undefs.length);
+
+      //Array()建構式 : 有三個建構方式
+      var a = new Array(); //不帶引數的呼叫，等同空陣列[]
+      var a = new Array(10); //指定陣列長度10
+      console.log(a[0]); //=>undefined
+      var a = new Array(5, 4, 3, 2, 1, "testing, testing"); //明確指定
+    </script>
+  </body>
+</html>

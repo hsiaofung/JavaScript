@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //新增元素: 只要把值指定給新的索引
+      a = []; //創建空陣列。
+      a[0] = "zero"; //新增元素。
+      a[1] = "one";
+
+      //push : 在陣列的尾端加入值
+      a = [];
+      a.push("zero"); //在尾端新增一個值。a=["zero"]
+      a.push("one", "two"); //再新增兩個值。a=["zero", "one", "two"]
+
+      //delete
+      a = [1, 2, 3];
+      delete a[1]; //a 的索引1現在沒元素
+      1 in a; //=>false: 陣列索引1沒有定義
+      a.length; //=>3 : 刪除不會影響陣列長度
+      
+    </script>
+  </body>
+</html>
