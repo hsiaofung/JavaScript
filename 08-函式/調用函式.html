@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //構成函式主體的JavaScript程式碼是在函式被調用時執行，而非函式定義時。
+        //調用函式有四種方法 
+        //作為函式，
+        //作為方法，
+        //作為建構式
+        //透過它們的call()與apply()方法間接調用。
+
+        //函式調用:
+        function printprops(o) {
+            for (var p in o)
+                console.log(p + ": " + o[p] + "\n");
+        }
+
+        function distance(x1, y1, x2, y2) {
+            var dx = x2 - x1;
+            var dy = y2 - y1;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        function factorial(x) {
+            if (x < 1) return 1;
+            return x * factorial(x - 1);
+        }
+
+        printprops({
+            x: 1
+        });
+
+        var total = distance(0, 0, 2, 1) + distance(2, 1, 3, 5);
+        var probability = factorial(5) / factorial(13);
+
+        //定義並調用這個函式來判斷是否處於strict模式
+        var strict = (function () {
+            return !this
+        }())
+        console.log(strict)
+
+        //方法調用
+        //方法不過是存於物件特性中的JavaScript函式。
+        var o = {};
+        var f = function () {
+            console.log('i am f')
+        }
+        o.m = f;
+
+        //調用方法
+        o.m();
+
+        //調用方法: 預期兩個引數
+        var x = y = 0;
+        o.m(x, y)
+
+        //方法調用的引數與回傳值被處理的方式和一般函式處理的方式完全相同
+        //但有一個重要的差異: 它們的調用情境，方法調用的調用情境是調用它的物件
+        //而一般函式的調用情境是全域物件。而函式主體可用關鍵字this來參考這個物件。
+        var calculator = { //物件字面值
+            operand1: 1,
+            operand2: 1,
+            add: function () {
+                //請注意，這裡使用this關鍵字來參考此物件。
+                this.result = this.operand1 + this.operand2;
+            }
+        };
+        calculator.add(); //計算1+1的方法調用
+        console.log(calculator.result); //=>2
+
+        //大部分方法調用都用點記號來存取特性，但也可以使用中括號。
+        var a = {};
+        a[0] = f;
+        var z = 0;
+        o["m"](x, y) //等同於o.m(x,y)
+        a[0](z) //同樣也是方法調用(假設a[0]是個函式)
+
+        //方法調用可以包含更複雜的特性存取運算式。
+        var customer = {
+            surname: "AAA"
+        }
+
+        function f1() {
+            console.log('i am ff')
+            console.log(this)
+
+            this.m = function () {
+                console.log("i am b")
+            }
+            return this
+        }
+
+
+        customer.surname.toUpperCase(); //在customer.surname之上調用方法。
+        f1().m(); //在f1()的回傳值上調用方法m()
+
+        //作為方法被使用的函式在效果上等於接受了一個隱含的引數(this)。
+        //而這個this就是調用它的物件
+        var rect = {
+            setSize: function () {
+                console.log('set size')
+            }
+        }
+        var setRectSize = function () {
+            console.log('i am setRectSize')
+        }
+        var width = height = 0;
+
+        rect.setSize(width, height) //兩個功能一樣，但此程式更為清楚指明，物件rect是這項動作的主要目標
+        setRectSize(rect, width, height)
+
+        //方法鍊串的程式設計風格 : 當方法回傳的是物件，你可以把一個方法調用的回傳值當作隨後調用的一部分。
+        //結果就是單一運算式中可包含一連串(或作chain，串鏈或是cascade，串接)的方法調用。
+        //找出所有標頭(headers)，對映(map)至它們的id，轉成陣列，然後排序 
+
+        function $(x) {
+            this.map = function () {
+                console.log('i am map')
+                return this;
+            }
+            this.get = function () {
+                console.log('i am get')
+                return this
+            }
+            this.sort = function () {
+                console.log('i am sort')
+                return this
+            }
+            return this
+        }
+
+        $(":header").map(function () {
+            return this.id
+        }).get().sort();
+
+
+        //當你寫的方法本身沒有回傳值的時候，你可以考慮讓他回傳this。如果在API中從頭
+        //到尾一致地這樣做，你可以促成一種稱為方法鏈串(method chaining)的設計風格
+        //其中你只要提及物件名稱一次，就可以在它之上調用多個方法
+        shape = {
+            setX: function (x) {
+                console.log('i am setX')
+                return this;
+            },
+            setY: function (x) {
+                console.log('i am setY')
+                return this
+            },
+            setSize: function (x) {
+                console.log('i am setSize')
+                return this
+            },
+            setOutline: function (x) {
+                console.log('i am setOutline')
+                return this
+            },
+            setFill: function (x) {
+                console.log('i am setFill')
+                return this
+            },
+            draw: function () {
+                console.log('i am draw')
+                return this
+            }
+        }
+        shape.setX(100).setY(100).setSize(50).setOutline("red").setFill("blue").draw();
+
+        //this是關鍵字不是變數，關鍵字沒有範疇，嵌套於別的函式中的函式(巢狀函式中的內層函式)
+        //不會繼承包含它們函式之this值。
+        //如果內層函式被當作方法調用: 它的this值就會是調用它的物件。
+        //如果內層函式被當作一般函式調用: 它的this值就會是全域物件或undefined。
+        var o = { //物件o
+            m: function () { //該物件的方法m。
+                var self = this; //將this值存在一個變數中。
+                console.log(this === o) //印出"true": this為物件o。
+                f(); //現在呼叫輔助(helper)函式f()。
+
+                function f() { //巢狀函式f
+                    console.log(this === o) //"false" : this為全域物件或undefined
+                    console.log(self === o) //"true" : self是外層的this值。
+                }
+            }
+        }
+        o.m() //在物件o上調用方法m
+
+        //建構式調用 
+        //引數:處理引數和一般函數相同，但如果建構是沒有參數，JavaScript允許你省略引數列及括號。
+        //調用情境: 建構函式原本是用來初始化物件，而這個新創物件會被當作調用情境。
+        //return : 建構式一般不會用到return 關鍵字。通常他們初始化物件
+        //如果建構式明確地使用return 來回傳一個物件，那麼這個物件就會成為調用運算式的值。
+        //如果建構式使用不帶值的return，或是它回傳一個基本型別值，這種回傳值會被忽略
+        //該調用的值仍是新物件。        
+        var o = new Object();
+        var o = new Object; //若建構式沒有參數可以省略空括號
+
+        //間接調用 : 可以將任何函式當作任意物件的方法來調用
+        //call() : 用自己的引數列作為傳給函式的引數
+        //apply() : 預期一組值組成的陣列來作引數之用。
+    </script>
+</body>
+
+</html>

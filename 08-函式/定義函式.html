@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //定義JavaScript: function 識別字 參數 {}
+        //識別字: 變數，定義的函式物件指定給該變數。
+        //參數: 也就是函式的區域變數。
+        //{}: 函式的主體，被調用時執行
+
+
+        //函數宣告式 :實際上是宣告一個變數，然後把函式物件指定給它。
+        //印出o每個特性的名稱與值，回傳undefined
+        //沒有寫return 預設回undefined。這種沒有return 的函式又稱procedures。
+        function printprops(o) {
+            for (var p in o)
+                console.log(p + ": " + o[p] + "\n");
+        }
+
+        //計算Cartesian 點(x1,y1)與(x2,y2)之間的距離
+        function distance(x1, y1, x2, y2) {
+            var dx = x2 - x1;
+            var dy = y2 - y1;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        //一個遞迴函式，它計算階乘值x!
+        //x!為x與所有比它小的正整數之乘積
+        function factorial(x) {
+            if (x < 1) return 1;
+            return x * factorial(x - 1);
+        }
+
+        //函式定義運算式：　並沒有宣告變數
+        //這個函式運算式定義一個計算其引數平方值的函式
+        //請注意我們把它指定給一個變數
+        var squar = function (x) {
+            return x * x
+        }
+
+        //函式運算式可包含名稱，這在遞迴時很有用
+        //函式運算式並沒有宣告變數，會繫結此函式名稱（fact）
+        var f = function fact(x) {
+            if (x <= 1) return 1;
+            else return x *
+                fact(x - 1)
+        }
+
+        //函式運算式也可當作其他函式的引數
+        data.sort(function (a, b) {
+            return a - b
+        })
+
+        //函式運算式有時會在定義後立即調用:
+        var tensquared = (function (x) {
+            return x * x
+        }(10))
+
+        //巢狀函式
+        function hypotenuse(a, b) {
+            function square(x) {
+                return x * x
+            }
+            return Math.sqrt(square(a) + square(b));
+        }
+    </script>
+</body>
+
+</html>
