@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //選擇性參數
+        //函式調用的引數比參數少，額外的參數會設為undefine
+        //有時我們想寫出較具彈性的函式，使它們具備某些非必須(optional，或稱選擇性)引數。
+
+        //將物件o的可列舉特性名稱附加至
+        //陣列a，並回傳a。如果省略a，那就創建並回傳一個新陣列。
+        function getPropertyNames(o, /* optional */ a) {
+            if (a === undefined) a = []; //如是undefined，使用新陣列
+            for (var property in o) a.push(property);
+            return a;
+        }
+
+        //這函式可用一個或兩個引數調用:
+        var o = {
+            x: 1,
+            y: 2
+        }
+        var p = {
+            z: 3,
+            w: 4
+        }
+        var a = getPropertyNames(o); //取得o的特性，放入一個新陣列。
+        getPropertyNames(p, a); //將p的特性附加至該陣列
+
+        //也可以這樣寫
+        function getPropertyNames(o, /* optional */ a) {
+            a = a || []; //如是undefined，使用新陣列
+            for (var property in o) a.push(property);
+            return a;
+        }
+
+        //若函式調用時的引數值比參數名稱還多，我們無法直接參考到這些不具名值
+        //Arguments物件為這個問題提供了解決方式。在函式主體中，識別字arguments參考至
+        //該次調用的Arguments物件，Arguments物件是種類陣列物件，它使我們能使用數字(而非名稱)
+        //來擷取傳入函式的引數值。
+
+        //如何使用Arguments物件去驗證函式調用的引數數目符合預期
+        function f(x, y, z) {
+            //首先，驗證傳入的引數個數是正確的
+            if (arguments.length != 3) {
+                throw new Error("funciton f called with " + arguments.length + "arguments, but it expects 3 arguments.")
+            }
+            //現在執行實際的函式內容
+        }
+
+        //接受任意數目的數值引數，並回傳最大的傳入引數
+        function max( /* ...*/ ) {
+            var max = Number.NEGATIVE_INFINITY;
+            //逐一查看引數，找出並記住最大者
+            for (var i = 0; i < arguments.length; i++)
+                if (arguments[i] > max) max = arguments[i];
+            //回傳最大值
+            return max;
+        }
+        var largest = max(1, 10, 100, 2, 3, 1000, 4, 5, 10000, 6); //=>10000
+        console.log(largest)
+
+        //Arguments物件可以透過引數別名，或索引改變變數的值。
+        function f(x) {
+            console.log(x); //顯示該引數的初始值
+            arguments[0] = null; //更動陣列元素也會改變x
+            console.log(x); //現在顯示null
+        }
+
+        //callee與caller特性
+    </script>
+</body>
+
+</html>
