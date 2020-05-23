@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 </head>
 
@@ -24,12 +24,12 @@
         //這函式可用一個或兩個引數調用:
         var o = {
             x: 1,
-            y: 2
-        }
+            y: 2,
+        };
         var p = {
             z: 3,
-            w: 4
-        }
+            w: 4,
+        };
         var a = getPropertyNames(o); //取得o的特性，放入一個新陣列。
         getPropertyNames(p, a); //將p的特性附加至該陣列
 
@@ -49,7 +49,11 @@
         function f(x, y, z) {
             //首先，驗證傳入的引數個數是正確的
             if (arguments.length != 3) {
-                throw new Error("funciton f called with " + arguments.length + "arguments, but it expects 3 arguments.")
+                throw new Error(
+                    "funciton f called with " +
+                    arguments.length +
+                    "arguments, but it expects 3 arguments."
+                );
             }
             //現在執行實際的函式內容
         }
@@ -64,7 +68,7 @@
             return max;
         }
         var largest = max(1, 10, 100, 2, 3, 1000, 4, 5, 10000, 6); //=>10000
-        console.log(largest)
+        console.log(largest);
 
         //Arguments物件可以透過引數別名，或索引改變變數的值。
         function f(x) {
@@ -74,6 +78,105 @@
         }
 
         //callee與caller特性
+        //callee : 被呼叫者
+        //caller : 呼叫者
+        var factorial = function (x) {
+            if (x <= 1) return 1;
+            return x * arguments.callee(x - 1);
+        };
+
+        //使用物件作為引數: 因為調用函式很難記住傳入引數的正確順序。
+        function arraycopy(
+            /*array*/
+            from,
+            /*index*/
+            from_start,
+            /*array*/
+            to,
+            /*index*/
+            to_start,
+            /*integer*/
+            length
+        ) {
+            //程式碼在此
+        }
+
+        //這個版本的效能低了一點，但你不需要
+        //記得引數的順序，而from_start與to_start的預設值為0。
+        //至少你不用考慮引數的順序。只要名稱正確即可。
+        function easycopy(args) {
+            arraycopy(
+                args.from,
+                args.from_start || 0,
+                args.to,
+                args.to_start || 0,
+                args.length
+            );
+        }
+        //這裡是調用easycopy()的方式:
+        var a = [1, 2, 3, 4],
+            b = [];
+        easycopy({
+            from: a,
+            to: b,
+            length: 4
+        });
+
+        //引數型別
+        function max( /*數字...*/ ) {
+            //表示可以接受任意數目的引數
+        }
+
+        //檢查引數型別 :
+        //回傳陣列(或類陣列物件)a的元素總和
+        //a 的元素必須全部是數字，並忽略null與undefined
+        function isArrayLike(o) {
+            if (
+                o && //o不為null、undefined等。
+                typeof o === "object" && //o是物件
+                isFinite(o.length) && //o.length為有限數字
+                o.length >= 0 && //o.length是非負的
+                o.length === Math.floor(o.length) && //o.length是個整數
+                o.length < 4294967296 //o.length < 2^32
+            )
+                return true;
+            //則o為類陣列物件
+            else return false; //否則就不是
+        }
+
+        function sum(a) {
+            if (isArraLike(a)) {
+                var total = 0;
+                for (var i = 0; i < a.length; i++) {
+                    var element = a[i];
+                    if (element == null) continue;
+                    if (isFinite(element)) total += element;
+                    else throw new Error("sum(): elements must be finite numbers");
+                }
+                return total;
+            } else throw new Error("sum(): argument must be array-like");
+        }
+
+        //接受任何數目的引數，並遞迴處理任何陣列引數
+        function flexisum(a) {
+            var total = 0;
+            for (var i = 0; i < arguments.length; i++) {
+                var element = arguments[i],
+                    n;
+                if (element == null) continue; // 忽略null與undefined引數
+                if (isArray(element)) //如果引數是陣列
+                    n = flexisum.apply(this, element) //遞迴計算它的和
+                else if (typeof element === 'functoin') //除此之外如果它是函式
+                    n = Number(element()); //調用它並轉換
+                else n = Number(element); //否則就嘗試轉換
+
+                if (isNaN(n)) //如果無法轉成數字，就擲出錯誤
+                    throw Error("flexisum(): can't convert " + element + " to number");
+                total += n; //不然就把n加至total                    
+            }
+            return total;
+        }
+        
     </script>
 </body>
 

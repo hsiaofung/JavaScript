@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function square(x) {
+            return x * x
+        }
+
+        var s = square; // 現在s 與 square參考至相同的函式
+        console.log(square(4)); //=>16
+        console.log(s(4)) //=>16
+
+        var o = {
+            square: square
+        }; //一個物件字面值
+        var y = o.square(4) //=>16
+        console.log(y)
+
+        var a = [square] //一個陣列字面值
+        console.log(a[0](4)) //=>16
+
+        //在此定義一些簡單的函式
+        function add(x, y) {
+            return x + y
+        }
+
+        function subtract(x, y) {
+            return x + y
+        }
+
+        function multiply(x, y) {
+            return x * y
+        }
+
+        function divide(x, y) {
+            return x / y
+        }
+
+        //這個函式會取上面的函式之一作為引數
+        //並在兩個運算元上調用它
+        function operate(operator, operand1, operand2) {
+            return operator(operand1, operand2)
+        }
+        //我們可以像這樣調用這個函式來計算(2+3) + (4*5)的值
+        var i = operate(add, operate(add, 2, 3), operate(multiply, 4, 5))
+
+        //作為範例，我們再次實作上面的簡單函式，
+        //這次把函式字面值用在物件字面值中
+        var operators = {
+            add: add,
+            subtract: subtract,
+            multiply: multiply,
+            divide: divide,
+            pow: Math.pow //預先定義的函式也行得通
+        }
+
+        function operate2(operation, operand1, operand2) {
+            if (typeof operators[operation] === 'function')
+                return operators[operation](operand1, operand2);
+            else
+                throw "unknow operator";
+        }
+
+        //計算 ("hello" + " " + "world")的值，像這樣:
+        var j = operate2("add", "hello", operate2("add", " ", "world"));
+        //使用預先定義的Math.pow()函式:
+        var k = operate2("pow", 10, 2);
+
+        //定義自己的函式特性 : 
+        //當函式需要各靜態變數，其值要能夠在調用間續存，通常使用函式的特性
+        //來取代全域變數的定義會便利許多。
+
+        //初始化這個函式物件的counter特性。
+        //函式宣告被拉升，所以實際上我們
+        //可以在函式宣告之前進行這項指定。而不是存在全域變數
+        uniqueInteger.counter = 0;
+
+        //這個函式每次被呼叫時都會傳回一個不同的整數。
+        //它使用它自己的特性來記錄下個要回傳的值。
+        function uniqueInteger() {
+            return uniqueInteger.counter++; //回傳並遞增counter特性
+        }
+
+        //計算階乘值(factorials)並把結果暫存在函式本身的特性中。
+        function factorial(n) {
+            if (isFinite(n) && n > 0 && n == Math.round(n)) { //僅處理有限的正整數
+                if (!(n in factorial)) //如果沒有暫存結果
+                    factorial[n] = n * factorial(n - 1); //計算並暫存之
+                return factorial[n]; //回傳暫存的結果
+            } else return NaN; //如果輸入不正確
+        }
+        factorial[1] = 1; //將暫存空間初始化
+        console.log(factorial(5));
+    </script>
+</body>
+
+</html>
