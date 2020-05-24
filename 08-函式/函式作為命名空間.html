@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //函式作為命名空間
+        function mymodule() {
+            //模組的程式碼在此
+            //這個模組使用的變數都是函式中的區域變數
+            //而不會干擾全域命名空間
+        }
+        mymodule(); //別忘記要調用這個函式
+
+        //單一運算式中定義調用匿名函數，連全域變數mymodule都沒有。 
+        //左括號是必需的，有了它JavaScript才翻譯成函式定義運算式。
+        (function () { //把mymodule函式改寫為不具名的運算式
+            //模組程式碼在此
+        }()); //函式字面值結尾後立即調用它
+
+        //
+        //定義一個extend(擴充)函式，用來把它
+        //第二個及之後的引數複製到它的第一個引數之上。
+        //我們在此處理一個IE的臭蟲: 在許多版本的IE中，如果o的prototype有個
+        //與o的可列舉特性相同名稱的不可列舉特性，for/in迴圈不會列舉o的這個同名特性。
+        //這代表除非我們明確地檢查它們，否則toString這類特性不會被正確地處理。
+        var extend = (function () { //指定這個函式的回傳值
+            //修補之前檢查這個臭蟲是否存在。
+            for (var p in {
+                    toString: null
+                }) {
+                //如果我們進來這裡，表示for/in 迴圈正確運作。
+                //我們就回傳簡單版的extend()函式
+                return function extend(o) {
+                    for (var i = 1; i < arguments.length; i++) {
+                        var source = arguments[i];
+                        for (var prop in source) o[prop] = source[prop];
+                    }
+                    return o;
+                }
+            }
+            //如果我們跑到這裡，這表示for/in 迴圈並沒有列舉測試物件的
+            //toString特性。所以回傳修補版的extend()函式，
+            //這個版本會明確地檢測Object.prototype的
+            //不可列舉特性。
+            //這是我們用來檢查的特例特性列表
+            var protoprops = ["toSting", "valueOf", "constructor", "hasOwnProperty", "isPrototypeOf",
+                "propertyIsEnumerable", "toLocalString"
+            ];
+            return function patched_extend(o) {
+                for (var i = 1; i < arguments.length; i++) {
+                    var source = arguments[i];
+                    //複製所有可列舉的特性
+                    for (var prop in source) o[prop] = source[prop];
+
+                    //現在檢查特例的特性
+                    for (var j = 0; j < protoprops.length; j++) {
+                        prop = protoprops[j];
+                        if (source.hasOwnProperty(prop)) o[prop] = source[prop]
+                    }
+                }
+                return o;
+            };
+        }())
+        var o = {
+            x: 1,
+            y: 2
+        }
+        var p = {
+            z: 3,
+            w: 4
+        };
+
+        var q = {
+            d: 5,
+            e: 6,
+            toString: 7
+        }
+        extend(o, p, q)
+        console.log(o)
+    </script>
+</body>
+
+</html>

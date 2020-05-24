@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //closures 的基本寫法: 一個函式包含區域變數 + 巢狀函式，巢狀函式用到區域變數。
+        var scope = "global scope"; //一個全域變數
+        function checkscope() {
+            var scope = "local scope"; //一個區域變數
+            function f() {
+                return scope;
+            }
+            return f();
+        }
+        checkscope(); //=>local scope
+
+        //語彙範疇規則: 函式執行時使用的變數範疇是函式定義時生效的範疇，而非調用時的變數範疇。
+        //closures : 它們會捕捉它們外層函式(即它們被定義之處)的區域變數之繫結。
+        function checkscope() {
+            var scope = "local scope"; //一個區域變數
+            function f() {
+                //定義函式
+                return scope;
+            }
+            return f;
+        }
+        //在定義之外調用函式: 一對()從裡面移到了外面。
+        checkscope()(); //=> local scope
+
+        //Closures能夠捕捉單一函式調用的區域變數，並把它們當作私有狀態。
+        var uniqueInteger = (function () {
+            //定義並調用
+            var counter = 0; //底下函式的私有狀態
+            return function () {
+                //函式主體回傳另一個函式，uniqueInteger被指定這個巢狀函式物件。
+                return counter++;
+            };
+        })();
+        console.log(uniqueInteger());
+        console.log(uniqueInteger());
+        console.log(uniqueInteger());
+
+        //像counter這種私有變數並不需要由單一closure獨佔:
+        //讓定義在同一個外層函式中的兩個或多個巢狀函式共享同樣的範疇鏈是可行的。
+        //第一件事: 兩個方法共享了私有變數n的存取權
+        //第二件事: counter()的每次調用都會創建一個新的範疇鏈與一個新的私有變數。
+        //所以如果你呼叫了兩次counter()，你會得到兩個具有不同私有變數的計數器物件，
+        //在其中一個物件上呼叫count()或reset()並不會影響另一個。
+        function counter() {
+            var n = 0;
+            return {
+                count: function () {
+                    return n++;
+                },
+                reset: function () {
+                    n = 0;
+                },
+            };
+        }
+        //創建兩個計數器
+        var c = counter(),
+            d = counter();
+        console.log(c.count()); //=>0
+        console.log(d.count()); //=>0: 它們會獨立計數
+        console.log(c.reset()); //=>undefined: 因為reset方法沒有return值。reset()與count()methods共享狀態。
+        console.log(c.count()); //=>0 : 因為我們重置了c
+        console.log(d.count()); //=>1 : d 沒有重置
+
+        //透過closures來實作私有狀態 : 並沒有宣告區域變數，而是用它的參數n
+        //來保存由accessor方法共享的私有狀態。
+        function counter1(n) {
+            return {
+                get count() {
+                    return n++;
+                },
+                set count(m) {
+                    if (m >= n) n = m;
+                    else throw Error("count can only be set to a large value");
+                },
+            };
+        }
+
+        var c = counter1(1000);
+        console.log(c.count); //=>1000
+        console.log(c.count); //=>1001
+        c.count = 2000;
+        console.log(c.count); //=>2000
+        // c.count = 2000; //=>Error!
+
+        //這個函式為物件o指定名稱的特性加上特性accessor方法。
+        //這些方法的名稱為get<特性名稱>及set<特性名稱>
+        //如果提供predicate函式，setter方法
+        //會在儲存值之前用它來檢查引數的有效性。
+        //如果predicate回傳false，setter方法會擲出例外。
+        //
+        //這個函式不凡之處在於getter與setter操作的
+        //特性值並不是存於物件o之中，取而代之
+        //這個值僅被存在這個函式的一個區域變數之中
+        //getter與setter方法也定義為這個函式的區域值
+        //因此可以存取這個區域變數。
+        //這代表這個變數的值私屬於這兩個accessor方法。
+        //它不能被設定或修改，除非透過setter方法。
+        function addPrivateProperty(o, name, predicate) {
+            var value; //這是特性值
+
+            //getter 方法僅會傳回該值
+            o["get" + name] = function () {
+                return value
+            }
+
+            //setter 方法儲存這個值或是擲出例外
+            //如果predicate駁回這個值的話
+            o["set" + name] = function (v) {
+                if (predicate && !predicate(v))
+                    throw Error("set" + name + ": invalid value" + v);
+                else
+                    value = v;
+            }
+        }
+
+        //下面的程式碼示範如何使用addPrivateProperty()方法。
+        var o = {}; //這裡是個空物件
+
+        //加入特性accessor方法getName()與setName()
+        //確保只有字串值才能通過
+        addPrivateProperty(o, "Name", function (x) {
+            return typeof x == "string"
+        })
+        o.setName("Frank"); //設定特性值
+        console.log(o.getName()) //取得特性值
+        o.setName(0) //試著使用型別錯誤的值來設定
+    </script>
+</body>
+
+</html>
