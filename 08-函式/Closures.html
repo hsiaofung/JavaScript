@@ -9,7 +9,7 @@
 
 <body>
     <script>
-        //closures 的基本寫法: 一個函式包含區域變數 + 巢狀函式，巢狀函式用到區域變數。
+        //closures 的基本寫法: 一個函式包含區域變數 + 巢狀函式，巢狀函式會用到外層函式的區域變數。
         var scope = "global scope"; //一個全域變數
         function checkscope() {
             var scope = "local scope"; //一個區域變數
@@ -135,6 +135,41 @@
         o.setName("Frank"); //設定特性值
         console.log(o.getName()) //取得特性值
         o.setName(0) //試著使用型別錯誤的值來設定
+
+        //closures不該共享的變數
+        //這個函式回傳一個永遠都回傳v的函式
+        function constfunc(v) {
+            return function () {
+                return v;
+            }
+        }
+
+        //創建一個常數函式構成的陣列
+        var funcs = [];
+        for (var i = 0; i < 10; i++) funcs[i] = constfunc(i);
+
+        //位於陣列元素5的函式回傳數值5。
+        funcs[5] //=>5
+
+        //一個錯誤的範例: 回傳一個陣列，內含回傳值0~9的函式
+        function constfuncs() {
+            var funcs = [];
+            for (var i = 0; i < 10; i++)
+                funcs[i] = function () { //創建10個closures，全都共享變數i
+                    return i
+                }
+            return funcs;
+        }
+        var funcs = constfuncs();
+        funcs[5]() //=>10
+
+        //this : this 是個關鍵字，不是變數，closure無法存取它外層函式的this，
+        //除非外層函式將這個值存到一個變數中:
+        var self = this; //把this值存在變數中讓巢狀函式用。
+
+        //arguments : 在每次函式調用時會自動被宣告，所以每個closure有自己的arguments繫結。
+        //它也無法存取外層函式的引數陣列。除非外層函式把這個陣列用變數儲存起來。
+        var outerArguments = arguments; //存起來給巢狀函式用。
     </script>
 </body>
 
