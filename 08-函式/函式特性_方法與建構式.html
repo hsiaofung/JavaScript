@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //length特性
+        //這個函式用到arguments.callee，所以它不能在strict模式中運行。
+        function check(args) {
+            var actual = args.length; //引數的實際數目
+            var expected = args.callee.length; //預期的引數數目
+            if (actual !== expected) //如果不同就擲出例外。
+                throw Error("Expected " + expected + "args; got " + actual);
+        }
+
+        function f(x, y, z) {
+            check(arguments) //檢查實際的引數數目是否符合預期的數目。
+            return x + y + z //現在正常執行函式的功能。
+        }
+
+        console.log(f(5, 6, 7))
+
+        //prototype 特性 : 用以參考到原型物件
+
+        //call()與apply()方法: 
+        //第一個引數 : 用來指出要在哪個物件上調用函式。這個引數就是調用情境，
+        //在函式主體中就成為this關鍵字的值。
+        //之後的引數是函式調用時要傳入的值。
+
+        //把函式f()當作物件o的方法來調用。
+        var o = {};
+        f.call(o, 1, 2, 3);
+        f.apply(o, [1, 2, 3]); //apply和call一樣，只不過傳入的引數用陣列指定。
+
+        //上面兩行程式碼的行為類似下面
+        o.m = f; //為o製作一個暫時的方法。
+        o.m(1, 2, 3); //調用它
+        delete o.m; //移除暫時的方法。
+
+        //apply允許你用任意長度的陣列來調用函式。
+        var array_of_numbers = [];
+        var biggest = Math.max.apply(Math, array_of_numbers)
+
+        //將物件o的方法m取代成新的版本，
+        //它會在調用原方法的前後記錄訊息
+        //這種動態更動現存方法的行為有時稱作"猴子修補"        
+        function trace(o, m) {
+            var original = o[m]; //將原本的方法記在closure中。            
+            o[m] = function () { //現在定義新方法
+                console.log(new Date(), "Entering:", m) //記錄訊息                
+                var result = original.apply(this, arguments); //調用原方法
+                console.log(new Date(), "Entering:", m) //記錄訊息
+                return result; //回傳結果。
+            }
+        }
+        o.m = f;
+        trace(o, "m");
+        console.log(o.m(1, 2, 3))
+
+        //bind()方法: 主要的用途是把一個函式繫結至物件。
+        //感覺是把函數和物件做結合運算。
+        function f1(y) {
+            return this.x + y
+        } //這個函式需要繫結
+        var b = {
+            x: 1
+        } //我們會繫結至物件o
+        var g = f1.bind(b); //呼叫g(x)會調用b.f(x)
+        console.log(g(2)) //=>3
+
+        //模擬bind
+        //回傳一個函式，把f當作o的方法來調用，並傳入它的所有引數        
+        function bind(f, o) {
+            if (f.bind) return f.bind(o) //如果有的話，就用官方的bind方法。
+            else return function () { //否則繫結的方式是這樣。
+                return f.apply(o, arguments)
+            }
+        }
+
+        //部分應用: curring
+        var sum = function (x, y) { //回傳兩個引數的和
+            return x + y
+        }
+        //創建一個新函式，但this值繫結至null
+        //而第一個引數繫結至1。這個新函式僅預期一個引數。
+        var succ = sum.bind(null, 1)
+        console.log(succ(2)) //=>3:x繫結至1，而我們傳入2當作y引數
+
+        function f2(y, z) {
+            return this.x + y + z
+        } //另一個執行加法的函式
+        var g = f2.bind({
+            x: 1
+        }, 2) //繫結this與y
+        console.log(g(3)) //=>6:this.x繫結至1，y繫結至2而z是3
+    </script>
+</body>
+
+</html>
