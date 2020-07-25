@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 目的: 算出rack、drawer的個自總和=>{rack: totalvalue, drawer:totalvalue}
+      // 原始資料
+      data = [
+        { rack: [{ ok: 77 }, { warning: 1 }, { critical: 4 }] },
+        { drawer: [{ ok: 566 }, { warning: 8 }, { critical: 29 }] },
+      ];
+
+      // 最後的結果，寫到這個變數。
+      let totalValue = {};
+
+      data.forEach((item) => {
+        // 取出鍵值rack、drawer
+        let itemKey = Object.keys(item)[0];
+        // 取出鍵值相對的value
+        let itemValue = Object.values(item)[0];
+
+        // 取得每一個項目的物件值的總和
+        let itemTotalValue = getTotalValue(itemValue);
+        
+        // 寫入計算的結果
+        totalValue[itemKey] = itemTotalValue;
+      });
+      console.log(totalValue);
+
+      function getTotalValue(array) {
+        var sum = 0;
+        // 遍歷ok、warning、critical，並將相對應的value加總起來。
+        array.forEach((element) => {
+          for (let key in element) {
+            sum += element[key];
+          }
+        });
+        return sum;
+      }
+    </script>
+  </body>
+</html>
