@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="timestamp"></div>
+  <script>
+    //window、document、element、event handler、 
+    //14.操作視窗的技巧 
+
+    //   window.location = "http://www.oreilly.com";
+    setTimeout(function () {
+      alert("hello world");
+    }, 2000);
+
+    //15.操作文件的技巧
+    var timestamp = document.getElementById("timestamp");
+    if (timestamp.firstChild === null) timestamp.appendChild(document.createTextNode(new Date().toString()));
+
+    //16.操作css的技巧
+    timestamp.style.backgroundColor = "yellow";
+    timestamp.className = "highlight";
+
+    //17.事件處理器
+  </script>
+</body>
+
+</html>
