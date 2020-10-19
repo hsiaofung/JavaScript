@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <a href='javascript:
+      var e = "", r = ""; 
+      do {
+        e = prompt("Expression: " + e + "\n" + r + "\n", e);
+        try{ r = "Result: " + eval(e);}
+        catch(ex) {r = ex;}
+      }while(e);
+      void 0;
+  '>
+  javascript Evaluator
+</a>
+</body>
+</html>

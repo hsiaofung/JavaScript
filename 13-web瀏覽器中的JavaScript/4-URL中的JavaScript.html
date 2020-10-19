@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    <a href="javascript:new Date().toLocaleTimeString();">
+      What Time is it?
+    </a>
+  </div>
+  
+  <div>
+  <!-- alert 沒有回傳值undefined -->
+    <a href="javascript:alert(new Date().toLocaleTimeString());">
+      Check the time without overwriting the document
+    </a>
+  </div>
+  <!-- 如果想要確保javascript: URL不會覆寫目前的文件，可以用void運算子來迫使一個調用 -->
+  <!-- 或指定運算式的值為undefined -->
+  <a href="javascript:void window.open('about:blank');">Open Window</a>
+</body>
+</html>
