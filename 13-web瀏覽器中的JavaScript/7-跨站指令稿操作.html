@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>AAAA</div>
+    <script>
+        var name = decodeURIComponent(window.location.search.substring(1)) || "";
+        name = name.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        document.write("Hello " + name);
+    </script>
+</body>
+</html>
