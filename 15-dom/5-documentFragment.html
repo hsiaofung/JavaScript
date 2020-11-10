@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="a">
+      I
+      <div>am</div>
+      <div>boy</div>
+    </div>
+    <script>
+      function reverse(n) {
+        var f = document.createDocumentFragment();
+        while (n.lastChild) f.appendChild(n.lastChild); // 一個子節點附加至f會自動將它從n中移除。
+        n.appendChild(f);
+      }
+      reverse(document.getElementById('a'));
+    </script>
+  </body>
+</html>

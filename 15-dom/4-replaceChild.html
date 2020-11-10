@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="a">Hello</div>
+    <script>
+      function embolden(n) {
+        if (typeof n == 'string') n = document.getElementById(n);
+        var parent = n.parentNode;
+        var b = document.createElement('b');
+        parent.replaceChild(b, n);
+        b.appendChild(n);
+      }
+      embolden('a');
+    </script>
+  </body>
+</html>
