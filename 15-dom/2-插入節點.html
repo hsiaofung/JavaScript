@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function insertAt(parent, child, n){
+      if(n < 0 || n > parent.childNodes.length) throw new Error("invalid index");
+      else if (n == parent.childNodes.length) parent.appendChild(child);
+      else parent.insertBefore(child, parent.childNodes[n]);
+    }
+  </script>
+</body>
+</html>
