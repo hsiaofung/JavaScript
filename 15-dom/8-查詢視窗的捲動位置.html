@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //跨瀏覽器的作法: 所有瀏覽器、IE8之前的瀏覽器、標準模式、怪異模式
+      function getScrollOffsets(w) {
+        //使用指定的視窗，若沒有引數就用目前的視窗。
+        w = w || window;
+
+        //所有瀏覽器中運行(除了IE8與之前的版本)
+        if (w.pageXOffset != null) return { x: w.pageXOffset, y: w.pageXOffset };
+
+        //標準模式
+        var d = w.document;
+        if (document.compatMode == 'CSS1Compat')
+          return { x: d.documentElement.scrollLeft, y: d.documentElement.scrollTop };
+        //怪異模式
+        return { x: d.body.scrollLeft, y: d.body.scrollTop };
+      }
+    </script>
+  </body>
+</html>
