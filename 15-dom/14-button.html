@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form name="myForm" action="">
+      <button name="frt" value="ppp">aaaa</button>
+      <input name="sec" type="button" value="bbb" />
+    </form>
+    <script>
+      for (var i = 0; i < document.forms.myForm.elements.length; i++) {
+        var myBtn = document.forms.myForm.elements[i];
+        console.log('btn', myBtn.value);
+      }
+    </script>
+  </body>
+</html>
