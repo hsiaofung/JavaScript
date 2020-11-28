@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+      <div id="first" style="font-size: 15px; background-color: red;">Hello</div>
+    <script>
+      function scale(e, factor) {
+        var size = parseInt(window.getComputedStyle(e, "").fontSize);
+        e.style.fontSize = factor * size + "px";
+      }
+      function scaleColor(e, factor) {
+        var color = window.getComputedStyle(e, "").backgroundColor;
+        var components = color.match(/[\d\.]+/g);
+        console.log(components)
+        for (var i = 0; i < 3; i++) {
+          var x = Number(components[i]) * factor;
+          x = Math.round(Math.min(Math.max(x, 0), 255));
+          components[i] = String(x);
+        }
+        if (components.length == 3)
+          e.style.backgroundColor = "rgb(" + components.join() + ")";
+        else e.style.backgroundColor = "rgba(" + components.join() + ")";
+      }
+      scale(document.getElementById('first'),2)
+      scaleColor(document.getElementById('first'), 0.8)
+    </script>
+  </body>
+</html>
