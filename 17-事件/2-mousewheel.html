@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      div.enclosure {
+        border: solid black 10px;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="testimage.jpg" id="content" />
+    <script>
+      whenReady(function () {
+        enclose(document.getElementById('content'), 400, 200, -200, -300);
+      });
+    </script>
+  </body>
+</html>
