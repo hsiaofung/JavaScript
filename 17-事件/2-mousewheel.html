@@ -14,9 +14,39 @@
   <body>
     <img src="testimage.jpg" id="content" />
     <script>
-      whenReady(function () {
-        enclose(document.getElementById('content'), 400, 200, -200, -300);
-      });
+      var whenReady = (function(){
+        var funcs = [];
+        var ready = false;
+        function handler(e){
+          if(ready) return;
+          if(e.type === "readystatechange" && document.readyState !== 'complete')
+            return;
+          for(var i = 0; i < funcs.length; i++)
+            funcs[i].call(document);
+          ready = true;
+          funcs = null;   
+        }
+        if(document.addEventListener){
+          document.addEventListener("DOMContentLoaded", handler, false)
+          document.addEventListener("readystatechange", handler, false)
+          window.addEventListener("load", handler, false)
+        }
+        else if(document.attachEvent){
+          document.attachEvent("onreadystatechange", handler)
+          window.attachEvent('onload', handler)
+        }
+        return function whenReady(f){
+          if(ready) f.call(document);
+          else funcs.push(f);
+        }
+      }()); 
+
+
+      // whenReady(function () {
+      //   enclose(document.getElementById('content'), 400, 200, -200, -300);
+      // });
+
+      enclose(document.getElementById('content'), 400, 200, -200, -300);
 
       function enclose(content, framewidth, frameheight, contentX, contentY) {
         framewidth = Math.max(framewidth, 50);
@@ -44,8 +74,8 @@
           navigator.userAgent.indexOf('Macintosh') !== -1 && navigator.userAgent.indexOf('WebKit') !== -1;
         var isFirefox = navigator.userAgent.indexOf('Gecko') !== -1;
 
-        frame.onwheel = wheelHandler;
-        frame.onmousewheel = wheelHandler;
+        frame.onwheel = wheelHandler.bind(this);
+        frame.onmousewheel = wheelHandler.bind(this);
         if (isFirefox) frame.addEventListener('DOMMouseScroll', wheelHandler, false);
 
         function wheelHandler(event) {
@@ -73,8 +103,34 @@
             framewidth -= deltaX;
             framewidth = Math.min(framewidth, contentwidth);
             framewidth = Math.max(framewidth, 50);
+            frame.style.width = framewidth + "px"
+          }
+          if (deltaY) {
+            frameheight -= deltaY;
+            frameheight = Math.min(frameheight, contentheight);
+            frameheight = Math.max(frameheight-deltaY, 50);
+            frame.style.height = frameheight + "px"
           }
         }
+        else{
+          if (deltaX) {
+            var minoffset = Math.min(framewidth-contentwidth, 0)
+            contentX = Math.max(contentX + deltaX, minoffset);
+            contentX = Math.min(contentX, 0);
+            content.style.left = contentX + "px"
+          }
+          if (deltaY) {
+            var minoffset = Math.min(frameheight - contentheight, 0)
+            contentY = Math.max(contentY + deltaY, minoffset);
+            contentY = Math.min(contentY, 0);
+            content.style.top = contentY + "px"
+          }
+        }
+        if(e.preventDefault) e.preventDefault();
+        if (e.stopPropagation) e.stopPropagation();
+        e.cancelBubble = true
+        e.returnValue = false
+        return false
       }
     </script>
   </body>
