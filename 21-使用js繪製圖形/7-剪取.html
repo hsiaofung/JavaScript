@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas id="my_canvas_id" width="1500" height="1000"></canvas>
+    <script>
+      var canvas = document.getElementById('my_canvas_id');
+      var c = canvas.getContext('2d');
+      function polygon(c, n, x, y, r, angle, counterclockwise) {
+        angle = angle || 0;
+        counterclockwise = counterclockwise || false;
+        c.moveTo(x + r * Math.sin(angle), y - r * Math.cos(angle));
+        var delta = (2 * Math.PI) / n;
+        for (var i = 1; i < n; i++) {
+          angle += counterclockwise ? -delta : delta;
+          c.lineTo(x + r * Math.sin(angle), y - r * Math.cos(angle));
+        }
+        c.closePath();
+      }
+      c.font = 'bold 60pt sans-serif';
+      c.lineWidth = 2;
+      c.strokeStyle = '#000';
+      c.strokeRect(175, 25, 50, 325);
+      c.strokeText('<canvas>', 15, 330);
+      polygon(c, 3, 200, 225, 200);
+      polygon(c, 3, 200, 225, 100, 0, true);
+      c.clip();
+      c.lineWidth = 10;
+      c.stroke();
+
+      c.fillStyle = '#aaa';
+      c.fillRect(175, 25, 50, 325);
+      c.fillStyle = '#888';
+      c.fillText('<canvas>', 15, 330);
+    </script>
+  </body>
+</html>
