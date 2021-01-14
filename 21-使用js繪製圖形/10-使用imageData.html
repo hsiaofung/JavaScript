@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas id="my_canvas_id" width="1500" height="1000"></canvas>
+    <script>
+      var canvas = document.getElementById('my_canvas_id');
+      var c = canvas.getContext('2d');
+
+      function smear(c, n, x, y, w, h) {
+        var pixels = c.getImageData(x, y, w, h);
+        var width = pixels.width,
+          height = pixels.height;
+        var data = pixels.data;
+        var m = n - 1;
+        for (var row = 0; row < height; row++) {
+          var i = row * width * 4 + 4;
+        }
+      }
+    </script>
+  </body>
+</html>
